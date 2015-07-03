@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Iono
+        psr4_prefix: Iono
+        src_path: src

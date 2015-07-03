@@ -1,0 +1,21 @@
+{
+  "name": "iono/lom",
+  "description": "code generator",
+  "minimum-stability": "stable",
+  "license": "mit",
+  "authors": [
+    {
+      "name": "yuuki takezawa",
+      "email": "yuuki.takezawa@comnect.jp.net"
+    }
+  ],
+  "require": {
+    "doctrine/annotations": "^1.2",
+    "nikic/php-parser": "^1.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.7",
+    "phpspec/phpspec": "^2.2",
+    "satooshi/php-coveralls": "dev-master"
+  }
+}
