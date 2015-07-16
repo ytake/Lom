@@ -8,14 +8,4 @@ namespace Iono\Lom\Meta;
 class Data
 {
 
-    /**
-     * @param \ReflectionClass $class
-     */
-    public function classReflector(\ReflectionClass $class)
-    {
-        foreach($class->getProperties() as $property) {
-            echo $property->getName();
-        }
-    }
-
 }

@@ -13,6 +13,9 @@ use Doctrine\Common\Annotations\IndexedReader;
 class AnnotationRegister
 {
 
+    /**
+     * @return $this
+     */
     public function register()
     {
         $iterator = new \DirectoryIterator(__DIR__ . '/Meta');
@@ -25,6 +28,9 @@ class AnnotationRegister
         return $this;
     }
 
+    /**
+     * @return IndexedReader
+     */
     public function getReader()
     {
         return new IndexedReader(new AnnotationReader());

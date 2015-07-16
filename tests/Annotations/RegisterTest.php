@@ -1,6 +1,8 @@
 <?php
 
 use Iono\Lom\AnnotationRegister;
+use Iono\Lom\Factory\GeneratorFactory;
+
 class RegisterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AnnotationRegister */
@@ -16,26 +18,11 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $reflectionClass = new \ReflectionClass(new DataAnnotation());
         $annotations = $reader->getClassAnnotations($reflectionClass);
         foreach($annotations as $annotation) {
-            $annotation->classReflector($reflectionClass);
+            $annotationClass = new ReflectionClass($annotation);
+            (new GeneratorFactory())->driver($annotationClass->getShortName())
+                ->parser($reflectionClass);
         }
-        $c = function () {
-            return (new DataAnnotation())->getMessage();
-        };
-        ($c());
+
     }
-
-}
-
-use Iono\Lom\Meta\Data;
-
-/**
- * Class DataAnnotation
- * @Data
- */
-class DataAnnotation
-{
-
-    /** @var string $message */
-    protected $message;
 
 }
