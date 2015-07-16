@@ -1,11 +1,11 @@
 <?php
-namespace Iono\Annotations;
+namespace Iono\Lom\Meta;
 
 /**
  * @Annotation
  * @Target("PROPERTY")
  */
-class Setter
+class Getter
 {
 
 }

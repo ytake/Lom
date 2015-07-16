@@ -1,11 +1,11 @@
 <?php
-namespace Iono\Annotations;
+namespace Iono\Lom\Meta;
 
 /**
  * @Annotation
  * @Target("CLASS")
  */
-class Data
+class Value
 {
 
 }

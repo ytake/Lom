@@ -1,5 +1,5 @@
 <?php
-namespace Iono\Annotations;
+namespace Iono\Lom\Meta;
 
 /**
  * @Annotation

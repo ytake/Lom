@@ -17,5 +17,10 @@
     "phpunit/phpunit": "^4.7",
     "phpspec/phpspec": "^2.2",
     "satooshi/php-coveralls": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Iono\\Lom\\": "src"
+    }
   }
 }
