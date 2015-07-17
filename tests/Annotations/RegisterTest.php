@@ -22,7 +22,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     public function testRegister()
     {
         $reader = $this->register->register()->getReader();
-        $reflectionClass = new \ReflectionClass(new DataAnnotation());
+        $reflectionClass = new \ReflectionClass('DataAnnotation');
         $parsedArray = $this->codeParser->parser($reflectionClass);
         $annotations = $reader->getClassAnnotations($reflectionClass);
         foreach ($annotations as $annotation) {
@@ -35,8 +35,8 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
                 ->driver($annotationClass->getShortName())
                 ->generator();
             $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
-            // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
-            var_dump($prettyPrinter->prettyPrintFile($parsed));
+            file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
+            // var_dump($prettyPrinter->prettyPrintFile($parsed));
         }
 
     }

@@ -10,14 +10,16 @@ use Iono\Lom\Meta\NoArgsConstructor;
  */
 class DataAnnotation
 {
+
     /** @var string $message */
     protected $message;
 
-    /** @var   */
+    /** @var string $testing */
     protected $testing;
 
-    public function __construct()
+    public function __construct($name)
     {
 
     }
+
 }

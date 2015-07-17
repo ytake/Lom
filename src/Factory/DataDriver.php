@@ -42,8 +42,10 @@ class DataDriver extends AbstractDriver implements FactoryInterface
                     }
                     $part->stmts[] = $this->createSetterMethod($setter);
                 }
+                $part->stmts[] = $this->createToString($this->getGetters());
             }
         }
+
         return $this->parsed;
     }
 
@@ -74,7 +76,29 @@ class DataDriver extends AbstractDriver implements FactoryInterface
             ->setDocComment("")
             ->addParam($this->builder->param($setter['property']))
             ->addStmt(
-                new Name("\$this->{$setter['property']} = {$setter['property']};")
+                new Name(
+                    "\$this->{$setter['property']} = \${$setter['property']};"
+                )
+            )->makePublic()->getNode();
+    }
+
+    /**
+     * @param array $getters
+     * @return \PhpParser\Node\Stmt\ClassMethod
+     */
+    protected function createToString(array $getters)
+    {
+        $class = $this->reflector->getName();
+        $classMethods = [];
+        foreach ($getters as $getter) {
+            $classMethods[] = "\$this->{$getter['method']}()";
+        }
+        $stringBuilder = implode(" . ', ' . ", $classMethods);
+        $build = "return '{$class}(' . $stringBuilder . ')';";
+        return $this->builder->method('__toString')
+            ->setDocComment("")
+            ->addStmt(
+                new Name($build)
             )->makePublic()->getNode();
     }
 
