@@ -2,8 +2,11 @@
 
 namespace Iono\Lom\Meta;
 
-
-class NonNull
+/**
+ * @Annotation
+ * @Target("PROPERTY")
+ */
+final class NonNull
 {
 
 }

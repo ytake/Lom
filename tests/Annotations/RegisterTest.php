@@ -25,20 +25,24 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $reflectionClass = new \ReflectionClass('DataAnnotation');
         $parsedArray = $this->codeParser->parser($reflectionClass);
         $annotations = $reader->getClassAnnotations($reflectionClass);
+
+        $diff = array_diff_key([
+            Iono\Lom\Meta\NoArgsConstructor::class,
+            Iono\Lom\Meta\AllArgsConstructor::class
+        ], $annotations);
+        var_dump($annotations);
         foreach ($annotations as $annotation) {
             $annotationClass = new ReflectionClass($annotation);
-
-            $parsed = (new GeneratorFactory(
-                $reflectionClass, $parsedArray
-                )
-            )
+            $parsed = (new GeneratorFactory($reflectionClass, $parsedArray))
                 ->driver($annotationClass->getShortName())
                 ->generator();
-            $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
-            file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
+            // $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
+            // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
             // var_dump($prettyPrinter->prettyPrintFile($parsed));
         }
-
+        $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
+        // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
+        var_dump($prettyPrinter->prettyPrintFile($parsed));
     }
 
 }

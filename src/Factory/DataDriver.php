@@ -2,6 +2,7 @@
 
 namespace Iono\Lom\Factory;
 
+use Iono\Lom\Constants;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Return_;
@@ -45,7 +46,6 @@ class DataDriver extends AbstractDriver implements FactoryInterface
                 $part->stmts[] = $this->createToString($this->getGetters());
             }
         }
-
         return $this->parsed;
     }
 
@@ -77,7 +77,7 @@ class DataDriver extends AbstractDriver implements FactoryInterface
             ->addParam($this->builder->param($setter['property']))
             ->addStmt(
                 new Name(
-                    "\$this->{$setter['property']} = \${$setter['property']};"
+                    sprintf(Constants::SETTER_FORMAT, $setter['property'], $setter['property'])
                 )
             )->makePublic()->getNode();
     }

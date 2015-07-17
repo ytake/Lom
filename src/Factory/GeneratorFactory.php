@@ -63,4 +63,14 @@ class GeneratorFactory
         ))->setReflector($this->reflectionClass);
     }
 
+    /**
+     * @return AllArgsConstructorDriver
+     */
+    protected function createAllArgsConstructorDriver()
+    {
+        return (new AllArgsConstructorDriver(
+            $this->parsed,
+            new BuilderFactory
+        ))->setReflector($this->reflectionClass);
+    }
 }

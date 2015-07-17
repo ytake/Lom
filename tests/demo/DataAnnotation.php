@@ -1,12 +1,14 @@
 <?php
 
+use Iono\Lom\Access;
 use Iono\Lom\Meta\Data;
 use Iono\Lom\Meta\NoArgsConstructor;
+use Iono\Lom\Meta\AllArgsConstructor;
 
 /**
  * Class DataAnnotation
  * @Data
- * @NoArgsConstructor
+ * @AllArgsConstructor(access=ACCESS::LEVEL_PROTECTED)
  */
 class DataAnnotation
 {
@@ -16,10 +18,5 @@ class DataAnnotation
 
     /** @var string $testing */
     protected $testing;
-
-    public function __construct($name)
-    {
-
-    }
 
 }
