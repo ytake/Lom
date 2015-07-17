@@ -83,7 +83,7 @@ class DataDriver extends AbstractDriver implements FactoryInterface
     }
 
     /**
-     * @param array $getters
+     * @param \string[] $getters
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
     protected function createToString(array $getters)
