@@ -1,6 +1,6 @@
 filter:
     paths:
-        - app/
+        - src/
     excluded_paths:
         - tests/*
         - spec/*
