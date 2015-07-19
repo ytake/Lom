@@ -71,11 +71,20 @@ abstract class AbstractDriver
     protected function removeConstructor($part)
     {
         if(!is_null($this->reflector->getConstructor())) {
-            foreach($part->stmts as $key => $statement) {
-                if ($statement instanceof ClassMethod) {
-                    if ($statement->name === '__construct') {
-                        unset($part->stmts[$key]);
-                    }
+            $this->removeMethod($part, '__construct');
+        }
+    }
+
+    /**
+     * @param $part
+     * @param $name
+     */
+    protected function removeMethod($part, $name)
+    {
+        foreach($part->stmts as $key => $statement) {
+            if ($statement instanceof ClassMethod) {
+                if ($statement->name === $name) {
+                    unset($part->stmts[$key]);
                 }
             }
         }

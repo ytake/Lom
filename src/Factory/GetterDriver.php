@@ -15,8 +15,6 @@ use PhpParser\Node\Expr\PropertyFetch;
 class GetterDriver extends AbstractDriver implements FactoryInterface
 {
 
-    use GetterTrait;
-
     /**
      * @return array|mixed
      */

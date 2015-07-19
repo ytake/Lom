@@ -104,4 +104,18 @@ class GeneratorFactory
         ))->setReflector($this->reflectionClass)
             ->setAnnotationInstance($this->annotation);
     }
+
+    /**
+     * for @Setter Annotation Driver
+     * @return GetterDriver
+     */
+    protected function createSetterDriver()
+    {
+        return (new SetterDriver(
+            $this->parsed,
+            new BuilderFactory
+        ))->setReflector($this->reflectionClass)
+            ->setAnnotationInstance($this->annotation);
+    }
+
 }
