@@ -10,6 +10,8 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     protected $register;
     /** @var CodeParser */
     protected $codeParser;
+    /** @var \Iono\Lom\Lom  */
+    protected $lom;
 
     protected function setUp()
     {
@@ -21,28 +23,32 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function testRegister()
     {
+
         $reader = $this->register->register()->getReader();
         $reflectionClass = new \ReflectionClass('DataAnnotation');
-        $parsedArray = $this->codeParser->parser($reflectionClass);
-        $annotations = $reader->getClassAnnotations($reflectionClass);
 
-        $diff = array_diff_key([
-            Iono\Lom\Meta\NoArgsConstructor::class,
-            Iono\Lom\Meta\AllArgsConstructor::class
-        ], $annotations);
-        var_dump($annotations);
+        $annotations = $reader->getClassAnnotations($reflectionClass);
+        $parsedArray = $this->codeParser->parser($reflectionClass);
         foreach ($annotations as $annotation) {
-            $annotationClass = new ReflectionClass($annotation);
             $parsed = (new GeneratorFactory($reflectionClass, $parsedArray))
-                ->driver($annotationClass->getShortName())
+                ->driver($annotation)
                 ->generator();
-            // $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
-            // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
-            // var_dump($prettyPrinter->prettyPrintFile($parsed));
         }
+
+        foreach($reflectionClass->getProperties() as $property) {
+            foreach($reader->getPropertyAnnotations($property) as $propertyAnnotation) {
+                $parsed = (new GeneratorFactory($reflectionClass, $parsedArray))
+                    ->driver($propertyAnnotation)
+                    ->setProperty($property)
+                    ->generator();
+            }
+        }
+
+        // var_dump($properties, $parsedArray);
+
         $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
         // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
-        var_dump($prettyPrinter->prettyPrintFile($parsed));
+        echo ($prettyPrinter->prettyPrintFile($parsed));
     }
 
 }

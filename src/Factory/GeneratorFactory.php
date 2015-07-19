@@ -3,9 +3,7 @@
 namespace Iono\Lom\Factory;
 
 use ReflectionClass;
-use PhpParser\Parser;
 use PhpParser\BuilderFactory;
-use PhpParser\Lexer\Emulative;
 
 /**
  * Class GeneratorFactory
@@ -21,6 +19,10 @@ class GeneratorFactory
     /** @var ReflectionClass  */
     protected $reflectionClass;
 
+    /** @var   */
+    protected $annotation;
+
+
     /**
      * @param ReflectionClass $reflectionClass
      * @param array           $parsed
@@ -32,12 +34,14 @@ class GeneratorFactory
     }
 
     /**
-     * @param $name
-     * @return FactoryInterface|mixed
+     * @param ReflectionClass $annotation
+     * @return \Iono\Lom\Factory\FactoryInterface
      */
-    public function driver($name)
+    public function driver($annotation)
     {
-        $driverClass = 'create' . ucfirst($name) . 'Driver';
+        $className = explode('\\', get_class($annotation));
+        $driverClass = 'create' . ucfirst(end($className)) . 'Driver';
+        $this->annotation = $annotation;
         return $this->$driverClass();
     }
 
@@ -64,6 +68,7 @@ class GeneratorFactory
     }
 
     /**
+     * for @AllArgsConstructor Annotation Driver
      * @return AllArgsConstructorDriver
      */
     protected function createAllArgsConstructorDriver()
@@ -71,6 +76,32 @@ class GeneratorFactory
         return (new AllArgsConstructorDriver(
             $this->parsed,
             new BuilderFactory
+        ))->setReflector($this->reflectionClass)
+            ->setAnnotationInstance($this->annotation);
+    }
+
+    /**
+     * for @NonNull Annotation Driver
+     * @return AllArgsConstructorDriver
+     */
+    protected function createNonNullDriver()
+    {
+        return (new NonNullDriver(
+            $this->parsed,
+            new BuilderFactory
         ))->setReflector($this->reflectionClass);
+    }
+
+    /**
+     * for @Getter Annotation Driver
+     * @return GetterDriver
+     */
+    protected function createGetterDriver()
+    {
+        return (new GetterDriver(
+            $this->parsed,
+            new BuilderFactory
+        ))->setReflector($this->reflectionClass)
+            ->setAnnotationInstance($this->annotation);
     }
 }

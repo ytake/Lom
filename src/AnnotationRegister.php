@@ -2,18 +2,21 @@
 
 namespace Iono\Lom;
 
+use Doctrine\Common\Annotations\IndexedReader;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\IndexedReader;
 
 /**
- * Class Register
- * @package Iono\Lom\Annotations
+ * Class AnnotationRegister
+ * @package Iono\Lom
+ * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class AnnotationRegister
 {
 
     /**
+     * annotations register
      * @return $this
      */
     public function register()

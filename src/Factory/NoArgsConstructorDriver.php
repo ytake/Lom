@@ -3,7 +3,6 @@
 namespace Iono\Lom\Factory;
 
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * Class NoArgsConstructorDriver
@@ -19,15 +18,7 @@ class NoArgsConstructorDriver extends AbstractDriver implements FactoryInterface
     {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
-                if(!is_null($this->reflector->getConstructor())) {
-                    foreach($part->stmts as $key => $statement) {
-                        if ($statement instanceof ClassMethod) {
-                            if ($statement->name === '__construct') {
-                                unset($part->stmts[$key]);
-                            }
-                        }
-                    }
-                }
+                $this->removeConstructor($part);
             }
         }
         return $this->parsed;
