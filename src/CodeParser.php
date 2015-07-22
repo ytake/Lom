@@ -8,6 +8,8 @@ use PhpParser\Parser;
 /**
  * Class CodeParser
  * @package Iono\Lom
+ * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class CodeParser
 {

@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Property;
  * Class NonNullDriver
  * @package Iono\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class NonNullDriver extends AbstractDriver implements FactoryInterface
 {

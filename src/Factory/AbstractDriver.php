@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Class AbstractDriver
  * @package Iono\Lom\Factory
+ * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 abstract class AbstractDriver
 {

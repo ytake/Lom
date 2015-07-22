@@ -6,6 +6,7 @@ namespace Iono\Lom;
  * Class Access
  * @package Iono\Lom
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 final class Access
 {

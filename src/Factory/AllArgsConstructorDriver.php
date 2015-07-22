@@ -2,7 +2,6 @@
 
 namespace Iono\Lom\Factory;
 
-use Iono\Lom\Access;
 use Iono\Lom\Constants;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
@@ -12,6 +11,7 @@ use PhpParser\Node\Stmt\ClassMethod;
  * Class AllArgsConstructorDriver
  * @package Iono\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface
 {

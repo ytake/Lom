@@ -3,17 +3,14 @@
 namespace Iono\Lom\Factory;
 
 use Iono\Lom\Constants;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Return_;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Class_;
 
 /**
  * Class GetterDriver
  * @package Iono\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class SetterDriver extends AbstractDriver implements FactoryInterface
 {

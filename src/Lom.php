@@ -3,13 +3,14 @@
 namespace Iono\Lom;
 
 use ReflectionClass;
+use Iono\Lom\Factory\GeneratorFactory;
 use Doctrine\Common\Annotations\Reader;
 use Iono\Lom\Exception\InconsistencyException;
 
 /**
  * Class Lom
  * @package Iono\Lom
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class Lom
@@ -21,9 +22,19 @@ class Lom
     /** @var Reader */
     protected $register;
 
-    protected $class;
+    /** @var */
+    protected $property;
 
-    protected $properties;
+    /** @var */
+    protected $parsed;
+
+    /**
+     * @param CodeParser $parser
+     */
+    public function __construct(CodeParser $parser)
+    {
+        $this->parser = $parser;
+    }
 
     /**
      * @param $className
@@ -48,21 +59,41 @@ class Lom
     /**
      * @return $this
      */
-    public function parseClassAnnotations()
+    public function generateCode()
     {
-        $this->class = $this->register->getClassAnnotations($this->reflection);
+        $parsed = $this->parser->parser($this->reflection);
+        $this->parseClassAnnotations($parsed);
+        $this->parsePropertyAnnotations($parsed);
+
+        $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
+        // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
+        echo ($prettyPrinter->prettyPrintFile($this->parsed));
         return $this;
     }
 
     /**
-     * @return $this
+     * @param array $parsed
+     * @return mixed
      */
-    public function parsePropertyAnnotations()
+    protected function parseClassAnnotations(array $parsed)
     {
-        foreach($this->reflection->getProperties() as $property) {
-            $this->properties[$property->getName()] = $this->register->getPropertyAnnotations($property);
+        $annotations = $this->register->getClassAnnotations($this->reflection);
+        foreach ($annotations as $annotation) {
+            $this->parsed = $this->generator($parsed, $annotation);
         }
-        return $this;
+    }
+
+    /**
+     * @param array $parsed
+     */
+    public function parsePropertyAnnotations(array $parsed)
+    {
+        foreach ($this->reflection->getProperties() as $property) {
+            foreach ($this->register->getPropertyAnnotations($property) as $propertyAnnotation) {
+                $this->setProperty($property);
+                $this->parsed = $this->generator($parsed, $propertyAnnotation);
+            }
+        }
     }
 
     /**
@@ -79,13 +110,37 @@ class Lom
         }
     }
 
-    public function getClassAnnotations()
+
+    /**
+     * @param array $parsed
+     * @param       $annotation
+     * @return mixed
+     */
+    protected function generator(array $parsed, $annotation)
     {
-        return $this->class;
+        /** @var \Iono\Lom\Factory\FactoryInterface $factory */
+        $factory = (new GeneratorFactory($this->reflection, $parsed))
+            ->driver($annotation);
+        if (!is_null($this->property)) {
+            $factory->setProperty($this->property);
+        }
+        return $factory->generator();
     }
 
-    public function getPropertiesAnnotation()
+    /**
+     * @param $property
+     */
+    protected function setProperty($property)
     {
-        return $this->properties;
+        $this->property = $property;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getParsed()
+    {
+        return $this->parsed;
+    }
+
 }

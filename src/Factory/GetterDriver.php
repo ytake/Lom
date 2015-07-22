@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\PropertyFetch;
  * Class GetterDriver
  * @package Iono\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class GetterDriver extends AbstractDriver implements FactoryInterface
 {

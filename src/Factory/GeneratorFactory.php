@@ -9,6 +9,7 @@ use PhpParser\BuilderFactory;
  * Class GeneratorFactory
  * @package Iono\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @license http://opensource.org/licenses/MIT MIT
  */
 class GeneratorFactory
 {
