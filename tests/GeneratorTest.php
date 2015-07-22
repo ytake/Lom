@@ -4,9 +4,9 @@ use Iono\Lom\CodeParser;
 use Iono\Lom\AnnotationRegister;
 
 /**
- * Class RegisterTest
+ * Class GeneratorTest
  */
-class RegisterTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AnnotationRegister */
     protected $register;
