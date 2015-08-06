@@ -11,28 +11,44 @@
 
 namespace Iono\Lom\Factory;
 
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
 /**
- * Class NoArgsConstructorDriver
+ * Class ValueDriver
  *
  * @package Iono\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class NoArgsConstructorDriver extends AbstractDriver implements FactoryInterface
+class ValueDriver extends AbstractDriver implements FactoryInterface
 {
+    // getter generator
+    use GetterTrait, ToStringTrait;
+
     /**
-     * @return mixed
+     * @return array|mixed
      */
     public function generator()
     {
+        foreach ($this->reflector->getProperties() as $property) {
+            $name = $property->getName();
+            $this->createGetter($name);
+        }
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
-                $this->removeConstructor($part);
+                foreach ($this->getGetters() as $getter) {
+                    if ($this->reflector->hasMethod($getter['method'])) {
+                        continue;
+                    }
+                    $part->stmts[] = $this->createGetterMethod($getter);
+                }
+                if (!$this->reflector->hasMethod('__toString')) {
+                    $part->stmts[] = $this->createToString($this->getGetters());
+                }
             }
         }
-
         return $this->parsed;
     }
+
 }

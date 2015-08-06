@@ -1,4 +1,13 @@
 <?php
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace Iono\Lom\Factory;
 
@@ -50,6 +59,7 @@ abstract class AbstractDriver
      * set ReflectionClass
      *
      * @param ReflectionClass $reflection
+     *
      * @return $this
      */
     public function setReflector(ReflectionClass $reflection)
@@ -61,6 +71,7 @@ abstract class AbstractDriver
 
     /**
      * @param $annotation
+     *
      * @return $this
      */
     public function setAnnotationInstance($annotation)
@@ -72,6 +83,7 @@ abstract class AbstractDriver
 
     /**
      * @param $part
+     *
      * @return void
      */
     protected function removeConstructor($part)
@@ -98,6 +110,7 @@ abstract class AbstractDriver
 
     /**
      * @param ReflectionProperty $name
+     *
      * @return $this
      */
     public function setProperty(ReflectionProperty $name)
@@ -109,6 +122,7 @@ abstract class AbstractDriver
 
     /**
      * @param \ReflectionMethod $name
+     *
      * @return $this
      */
     public function setMethod(ReflectionMethod $name)
@@ -137,5 +151,4 @@ abstract class AbstractDriver
                 break;
         }
     }
-
 }

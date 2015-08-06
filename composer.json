@@ -1,6 +1,6 @@
 {
-  "name": "iono/lom",
-  "description": "code generator",
+  "name": "ytake/lom",
+  "description": "lombok style code generator for php",
   "minimum-stability": "stable",
   "license": "mit",
   "authors": [
@@ -8,6 +8,10 @@
       "name": "yuuki takezawa",
       "email": "yuuki.takezawa@comnect.jp.net"
     }
+  ],
+  "keywords": [
+    "boilerplate",
+    "application"
   ],
   "require": {
     "doctrine/annotations": "^1.2",
@@ -25,7 +29,11 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/demo/DataAnnotation.php",
+      "tests/templates/DataAnnotation.php",
+      "tests/templates/DataGetterSetterAnnotation.php",
+      "tests/templates/InconsistencyConstructorAnnotation.php",
+      "tests/templates/AllArgsConstructorExistsAnnotation.php",
+      "tests/templates/ValueAnnotation.php",
       "tests/templates/Testing.php",
       "tests/templates/AllArgsConstructorAnnotation.php"
     ]

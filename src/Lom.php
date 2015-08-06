@@ -1,4 +1,13 @@
 <?php
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace Iono\Lom;
 
@@ -30,6 +39,9 @@ class Lom
 
     /** @var */
     protected $method;
+
+    /** @var CodeParser  */
+    protected $parser;
 
     /**
      * @param CodeParser $parser
@@ -65,22 +77,23 @@ class Lom
      * @param bool|false $printer
      * @return $this|void
      */
-    public function generateCode($printer = false)
+    public function generateCode($printer = false, $fileName = null)
     {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
         $this->parsePropertyAnnotations($parsed);
 
         $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
-
-        // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
+        if (!is_null($this->parsed)) {
+            $parsed = $this->parsed;
+        }
         if ($printer) {
-            if (!is_null($this->parsed)) {
-                $parsed = $this->parsed;
-            }
             return $prettyPrinter->prettyPrintFile($parsed);
         }
-
+        if(is_null($fileName)) {
+            $fileName = $this->reflection->getFileName();
+        }
+        file_put_contents($fileName, $prettyPrinter->prettyPrintFile($parsed));
         return $this;
     }
 
@@ -91,6 +104,7 @@ class Lom
     protected function parseClassAnnotations(array $parsed)
     {
         $annotations = $this->register->getClassAnnotations($this->reflection);
+        $this->detectException($annotations);
         foreach ($annotations as $annotation) {
             $this->parsed = $this->generator($parsed, $annotation);
         }
@@ -114,11 +128,14 @@ class Lom
      */
     protected function detectException($annotations)
     {
-        $diff = array_diff_key([
-            \Iono\Lom\Meta\NoArgsConstructor::class,
-            \Iono\Lom\Meta\AllArgsConstructor::class
-        ], $annotations);
-        if (count($diff) === 2) {
+        if(array_key_exists(\Iono\Lom\Meta\NoArgsConstructor::class, $annotations)
+            && array_key_exists(\Iono\Lom\Meta\AllArgsConstructor::class, $annotations)
+        ) {
+            throw new InconsistencyException;
+        }
+        if(array_key_exists(\Iono\Lom\Meta\Data::class, $annotations)
+            && array_key_exists(\Iono\Lom\Meta\Value::class, $annotations)
+        ) {
             throw new InconsistencyException;
         }
     }
@@ -147,14 +164,6 @@ class Lom
     protected function setProperty($property)
     {
         $this->property = $property;
-    }
-
-    /**
-     * @param $method
-     */
-    protected function setMethod($method)
-    {
-        $this->method = $method;
     }
 
     /**

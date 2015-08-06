@@ -1,4 +1,13 @@
 <?php
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace Iono\Lom\Factory;
 
@@ -16,6 +25,8 @@ use PhpParser\Node\Expr\PropertyFetch;
  */
 class GetterDriver extends AbstractDriver implements FactoryInterface
 {
+    /** @var bool */
+    protected $exists = false;
 
     /**
      * @return array|mixed
@@ -24,11 +35,10 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
     {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
-                if (!$this->detectMethod($part)) {
-                    return $this->parsed;
-                }
+                $methodName = $this->resolveMethodName();
+                $this->removeMethod($part, $methodName);
                 $part->stmts[] = $this->createGetterMethod([
-                    'method' => $this->resolveMethodName(),
+                    'method' => $methodName,
                     'property' => $this->property->getName()
                 ]);
             }
@@ -38,52 +48,16 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
     }
 
     /**
-     * @param Class_ $part
-     * @return bool
-     */
-    protected function detectMethod(Class_ $part)
-    {
-        foreach ($part->getMethods() as $key => $method) {
-            if ($method->name === $this->resolveMethodName()) {
-                unset($part->getMethods()[$key]);
-
-                return false;
-            }
-            if (strpos($this->resolveMethodName(), 'get', true) === 0) {
-                if ($method->name === strtolower(str_replace('get', '', $this->resolveMethodName()))) {
-                    $method->name = $this->resolveMethodName();
-
-                    return false;
-                }
-            }
-            if (!strpos($this->resolveMethodName(), 'get')) {
-                if ($method->name === 'get' . ucfirst($this->resolveMethodName())) {
-                    $method->name = $this->resolveMethodName();
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @param bool|false $reverse
      * @return string
      */
-    protected function resolveMethodName($reverse = false)
+    protected function resolveMethodName()
     {
-        $fluent = (!$reverse) ? $this->annotation->fluent : $reverse;
-        if (!$fluent) {
-            return "get" . ucfirst($this->property->getName());
-        }
-
-        return strtolower($this->property->getName());
+        return "get" . ucfirst($this->property->getName());
     }
 
     /**
      * @param array $getter
+     *
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
     protected function createGetterMethod(array $getter)

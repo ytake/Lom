@@ -1,4 +1,13 @@
 <?php
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace Iono\Lom\Factory;
 
@@ -14,7 +23,6 @@ use PhpParser\BuilderFactory;
  */
 class GeneratorFactory
 {
-
     /** @var array */
     protected $parsed;
 
@@ -23,7 +31,6 @@ class GeneratorFactory
 
     /** @var */
     protected $annotation;
-
 
     /**
      * @param ReflectionClass $reflectionClass
@@ -36,7 +43,7 @@ class GeneratorFactory
     }
 
     /**
-     * @param ReflectionClass $annotation
+     * @param  $annotation
      * @return \Iono\Lom\Factory\FactoryInterface
      */
     public function driver($annotation)
@@ -60,7 +67,18 @@ class GeneratorFactory
     }
 
     /**
-     * for @NoArgsConstructor Annotation Driver
+     * @return DataDriver
+     */
+    protected function createValueDriver()
+    {
+        return (new ValueDriver(
+            $this->parsed,
+            new BuilderFactory
+        ))->setReflector($this->reflectionClass);
+    }
+
+    /**
+     * for NoArgsConstructor Annotation Driver
      * @return NoArgsConstructorDriver
      */
     protected function createNoArgsConstructorDriver()
@@ -72,7 +90,7 @@ class GeneratorFactory
     }
 
     /**
-     * for @AllArgsConstructor Annotation Driver
+     * for AllArgsConstructor Annotation Driver
      *
      * @return AllArgsConstructorDriver
      */
@@ -86,7 +104,7 @@ class GeneratorFactory
     }
 
     /**
-     * for @Getter Annotation Driver
+     * for Getter Annotation Driver
      *
      * @return GetterDriver
      */
@@ -100,7 +118,7 @@ class GeneratorFactory
     }
 
     /**
-     * for @Setter Annotation Driver
+     * for Setter Annotation Driver
      *
      * @return GetterDriver
      */
@@ -112,5 +130,4 @@ class GeneratorFactory
         ))->setReflector($this->reflectionClass)
             ->setAnnotationInstance($this->annotation);
     }
-
 }

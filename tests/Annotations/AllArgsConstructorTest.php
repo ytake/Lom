@@ -25,4 +25,13 @@ class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
     }";
         $this->assertContains($constructor, $code);
     }
+
+    public function testExistsConstructorGenerateCode()
+    {
+        $code = $this->lom->register(new \Iono\Lom\AnnotationRegister())
+            ->target('AllArgsConstructorExistsAnnotation')
+            ->generateCode(true);
+        $this->assertContains('public function __construct($message)', $code);
+
+    }
 }
