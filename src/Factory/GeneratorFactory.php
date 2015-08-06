@@ -7,8 +7,9 @@ use PhpParser\BuilderFactory;
 
 /**
  * Class GeneratorFactory
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class GeneratorFactory
@@ -17,10 +18,10 @@ class GeneratorFactory
     /** @var array */
     protected $parsed;
 
-    /** @var ReflectionClass  */
+    /** @var ReflectionClass */
     protected $reflectionClass;
 
-    /** @var   */
+    /** @var */
     protected $annotation;
 
 
@@ -43,6 +44,7 @@ class GeneratorFactory
         $className = explode('\\', get_class($annotation));
         $driverClass = 'create' . ucfirst(end($className)) . 'Driver';
         $this->annotation = $annotation;
+
         return $this->$driverClass();
     }
 
@@ -58,6 +60,7 @@ class GeneratorFactory
     }
 
     /**
+     * for @NoArgsConstructor Annotation Driver
      * @return NoArgsConstructorDriver
      */
     protected function createNoArgsConstructorDriver()
@@ -70,6 +73,7 @@ class GeneratorFactory
 
     /**
      * for @AllArgsConstructor Annotation Driver
+     *
      * @return AllArgsConstructorDriver
      */
     protected function createAllArgsConstructorDriver()
@@ -82,19 +86,8 @@ class GeneratorFactory
     }
 
     /**
-     * for @NonNull Annotation Driver
-     * @return AllArgsConstructorDriver
-     */
-    protected function createNonNullDriver()
-    {
-        return (new NonNullDriver(
-            $this->parsed,
-            new BuilderFactory
-        ))->setReflector($this->reflectionClass);
-    }
-
-    /**
      * for @Getter Annotation Driver
+     *
      * @return GetterDriver
      */
     protected function createGetterDriver()
@@ -108,6 +101,7 @@ class GeneratorFactory
 
     /**
      * for @Setter Annotation Driver
+     *
      * @return GetterDriver
      */
     protected function createSetterDriver()

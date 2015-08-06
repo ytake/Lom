@@ -4,19 +4,20 @@ namespace Iono\Lom\Factory;
 
 use Iono\Lom\Access;
 use ReflectionClass;
+use ReflectionMethod;
 use ReflectionProperty;
 use PhpParser\BuilderFactory;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * Class AbstractDriver
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 abstract class AbstractDriver
 {
-
     /** @var ReflectionClass */
     protected $reflector;
 
@@ -32,11 +33,11 @@ abstract class AbstractDriver
     /** @var ReflectionProperty */
     protected $property;
 
-    /** @var  string */
+    /** @var ReflectionMethod */
     protected $method;
 
     /**
-     * @param array         $parsed
+     * @param array          $parsed
      * @param BuilderFactory $builder
      */
     public function __construct(array $parsed, BuilderFactory $builder)
@@ -47,12 +48,14 @@ abstract class AbstractDriver
 
     /**
      * set ReflectionClass
+     *
      * @param ReflectionClass $reflection
      * @return $this
      */
     public function setReflector(ReflectionClass $reflection)
     {
         $this->reflector = $reflection;
+
         return $this;
     }
 
@@ -63,6 +66,7 @@ abstract class AbstractDriver
     public function setAnnotationInstance($annotation)
     {
         $this->annotation = $annotation;
+
         return $this;
     }
 
@@ -72,7 +76,7 @@ abstract class AbstractDriver
      */
     protected function removeConstructor($part)
     {
-        if(!is_null($this->reflector->getConstructor())) {
+        if (!is_null($this->reflector->getConstructor())) {
             $this->removeMethod($part, '__construct');
         }
     }
@@ -83,7 +87,7 @@ abstract class AbstractDriver
      */
     protected function removeMethod($part, $name)
     {
-        foreach($part->stmts as $key => $statement) {
+        foreach ($part->stmts as $key => $statement) {
             if ($statement instanceof ClassMethod) {
                 if ($statement->name === $name) {
                     unset($part->stmts[$key]);
@@ -99,16 +103,29 @@ abstract class AbstractDriver
     public function setProperty(ReflectionProperty $name)
     {
         $this->property = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param \ReflectionMethod $name
+     * @return $this
+     */
+    public function setMethod(ReflectionMethod $name)
+    {
+        $this->method = $name;
+
         return $this;
     }
 
     /**
      * detect constructor access level
+     *
      * @return string
      */
     protected function setAccessLevel()
     {
-        switch($this->annotation->access) {
+        switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:
                 return 'makePrivate';
                 break;

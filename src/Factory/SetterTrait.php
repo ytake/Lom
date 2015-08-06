@@ -4,14 +4,15 @@ namespace Iono\Lom\Factory;
 
 /**
  * Class SetterTrait
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 trait SetterTrait
 {
 
-    /** @var string[]  */
+    /** @var string[] */
     protected $setters = [];
 
     /**

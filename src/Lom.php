@@ -9,13 +9,13 @@ use Iono\Lom\Exception\InconsistencyException;
 
 /**
  * Class Lom
+ *
  * @package Iono\Lom
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class Lom
 {
-
     /** @var  ReflectionClass */
     protected $reflection;
 
@@ -27,6 +27,9 @@ class Lom
 
     /** @var */
     protected $parsed;
+
+    /** @var */
+    protected $method;
 
     /**
      * @param CodeParser $parser
@@ -43,6 +46,7 @@ class Lom
     public function target($className)
     {
         $this->reflection = new ReflectionClass($className);
+
         return $this;
     }
 
@@ -53,21 +57,30 @@ class Lom
     public function register(AnnotationRegister $register)
     {
         $this->register = $register->register()->getReader();
+
         return $this;
     }
 
     /**
-     * @return $this
+     * @param bool|false $printer
+     * @return $this|void
      */
-    public function generateCode()
+    public function generateCode($printer = false)
     {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
         $this->parsePropertyAnnotations($parsed);
 
         $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
+
         // file_put_contents($reflectionClass->getFileName(), $prettyPrinter->prettyPrintFile($parsed));
-        echo ($prettyPrinter->prettyPrintFile($this->parsed));
+        if ($printer) {
+            if (!is_null($this->parsed)) {
+                $parsed = $this->parsed;
+            }
+            return $prettyPrinter->prettyPrintFile($parsed);
+        }
+
         return $this;
     }
 
@@ -86,7 +99,7 @@ class Lom
     /**
      * @param array $parsed
      */
-    public function parsePropertyAnnotations(array $parsed)
+    protected function parsePropertyAnnotations(array $parsed)
     {
         foreach ($this->reflection->getProperties() as $property) {
             foreach ($this->register->getPropertyAnnotations($property) as $propertyAnnotation) {
@@ -124,6 +137,7 @@ class Lom
         if (!is_null($this->property)) {
             $factory->setProperty($this->property);
         }
+
         return $factory->generator();
     }
 
@@ -136,11 +150,18 @@ class Lom
     }
 
     /**
+     * @param $method
+     */
+    protected function setMethod($method)
+    {
+        $this->method = $method;
+    }
+
+    /**
      * @return mixed
      */
     public function getParsed()
     {
         return $this->parsed;
     }
-
 }

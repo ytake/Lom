@@ -24,11 +24,22 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRegister()
+    public function testNoCodeGenerator()
     {
-        $this->lom->register(new AnnotationRegister())
-            ->target('DataAnnotation')
-            ->generateCode();
-    }
+        $lom = $this->lom->register(new AnnotationRegister());
+        $this->assertNull($lom->getParsed());
 
+        $detect = $lom->target('Testing');
+        $this->assertInstanceOf(\Iono\Lom\Lom::class, $detect);
+        $generated = $detect->generateCode(true);
+        $code = "<?php
+
+class Testing
+{
+    /** @var string \$message */
+    protected \$message;
+}
+        ";
+        $this->assertContains($generated, $code);
+    }
 }

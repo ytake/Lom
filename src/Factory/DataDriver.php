@@ -11,8 +11,9 @@ use PhpParser\Node\Expr\PropertyFetch;
 
 /**
  * Class DataDriver
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class DataDriver extends AbstractDriver implements FactoryInterface
@@ -47,6 +48,7 @@ class DataDriver extends AbstractDriver implements FactoryInterface
                 $part->stmts[] = $this->createToString($this->getGetters());
             }
         }
+
         return $this->parsed;
     }
 
@@ -96,11 +98,11 @@ class DataDriver extends AbstractDriver implements FactoryInterface
         }
         $stringBuilder = implode(" . ', ' . ", $classMethods);
         $build = "return '{$class}(' . $stringBuilder . ')';";
+
         return $this->builder->method('__toString')
             ->setDocComment("")
             ->addStmt(
                 new Name($build)
             )->makePublic()->getNode();
     }
-
 }

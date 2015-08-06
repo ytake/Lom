@@ -10,7 +10,7 @@ class AnnotationRegisterTest extends \PHPUnit_Framework_TestCase
         $this->register = new \Iono\Lom\AnnotationRegister();
     }
 
-    public function testRegisterAnnotations()
+    public function testRegister()
     {
         $this->register->register();
         $reader = $this->register->getReader();

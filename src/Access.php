@@ -4,8 +4,9 @@ namespace Iono\Lom;
 
 /**
  * Class Access
+ *
  * @package Iono\Lom
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 final class Access
@@ -19,5 +20,4 @@ final class Access
 
     /** for access private */
     const LEVEL_PRIVATE = 3;
-
 }

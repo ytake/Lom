@@ -8,15 +8,16 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 /**
  * Class AnnotationRegister
+ *
  * @package Iono\Lom
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class AnnotationRegister
 {
-
     /**
      * annotations register
+     *
      * @return $this
      */
     public function register()
@@ -28,6 +29,7 @@ class AnnotationRegister
                 AnnotationRegistry::registerFile($name);
             }
         }
+
         return $this;
     }
 
@@ -38,5 +40,4 @@ class AnnotationRegister
     {
         return new IndexedReader(new AnnotationReader());
     }
-
 }

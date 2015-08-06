@@ -9,8 +9,9 @@ use PhpParser\Node\Expr\PropertyFetch;
 
 /**
  * Class GetterDriver
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class GetterDriver extends AbstractDriver implements FactoryInterface
@@ -23,7 +24,7 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
     {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
-                if(! $this->detectMethod($part)) {
+                if (!$this->detectMethod($part)) {
                     return $this->parsed;
                 }
                 $part->stmts[] = $this->createGetterMethod([
@@ -32,6 +33,7 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
                 ]);
             }
         }
+
         return $this->parsed;
     }
 
@@ -44,21 +46,25 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
         foreach ($part->getMethods() as $key => $method) {
             if ($method->name === $this->resolveMethodName()) {
                 unset($part->getMethods()[$key]);
+
                 return false;
             }
-            if(strpos($this->resolveMethodName(), 'get', true) === 0) {
+            if (strpos($this->resolveMethodName(), 'get', true) === 0) {
                 if ($method->name === strtolower(str_replace('get', '', $this->resolveMethodName()))) {
                     $method->name = $this->resolveMethodName();
+
                     return false;
                 }
             }
-            if(!strpos($this->resolveMethodName(), 'get')) {
+            if (!strpos($this->resolveMethodName(), 'get')) {
                 if ($method->name === 'get' . ucfirst($this->resolveMethodName())) {
                     $method->name = $this->resolveMethodName();
+
                     return false;
                 }
             }
         }
+
         return true;
     }
 
@@ -72,6 +78,7 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
         if (!$fluent) {
             return "get" . ucfirst($this->property->getName());
         }
+
         return strtolower($this->property->getName());
     }
 
@@ -82,6 +89,7 @@ class GetterDriver extends AbstractDriver implements FactoryInterface
     protected function createGetterMethod(array $getter)
     {
         $detectAccessLevel = $this->setAccessLevel();
+
         return $this->builder->method($getter['method'])
             ->setDocComment("")
             ->addStmt(

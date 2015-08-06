@@ -9,8 +9,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * Class AllArgsConstructorDriver
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface
@@ -37,6 +38,7 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
                 }
             }
         }
+
         return $this->parsed;
     }
 
@@ -54,6 +56,7 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
             );
         }
         $detectAccessLevel = $this->setAccessLevel();
+
         return $this->builder->method('__construct')
             ->setDocComment("\n/**
                               *

@@ -25,7 +25,9 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/demo/DataAnnotation.php"
+      "tests/demo/DataAnnotation.php",
+      "tests/templates/Testing.php",
+      "tests/templates/AllArgsConstructorAnnotation.php"
     ]
   }
 }

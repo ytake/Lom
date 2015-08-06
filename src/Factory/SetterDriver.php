@@ -8,13 +8,13 @@ use PhpParser\Node\Stmt\Class_;
 
 /**
  * Class GetterDriver
+ *
  * @package Iono\Lom\Factory
- * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
+ * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class SetterDriver extends AbstractDriver implements FactoryInterface
 {
-
     /** @var bool */
     protected $exists = false;
 
@@ -37,6 +37,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
                 ]);
             }
         }
+
         return $this->parsed;
     }
 
@@ -53,6 +54,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
                     // exists getter method name
                     if (count($method->getParams()) === 0) {
                         $this->exists = true;
+
                         return $this->detectMethod($part);
                     }
                 }
@@ -61,6 +63,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
             if (strpos($this->resolveMethodName(), 'set', true) === 0) {
                 if ($method->name === strtolower(str_replace('set', '', $this->resolveMethodName()))) {
                     $method->name = $this->resolveMethodName();
+
                     return false;
                 }
             }
@@ -71,11 +74,13 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
                             'method' => 'set' . ucfirst($this->resolveMethodName()),
                             'property' => $this->property->getName()
                         ]);
+
                         return false;
                     }
                 }
             }
         }
+
         return true;
     }
 
@@ -89,6 +94,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
         if (!$fluent) {
             return "set" . ucfirst($this->property->getName());
         }
+
         return strtolower($this->property->getName());
     }
 
@@ -99,6 +105,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
     protected function createSetterMethod(array $setter)
     {
         $detectAccessLevel = $this->setAccessLevel();
+
         return $this->builder->method($setter['method'])
             ->setDocComment("")
             ->addParam($this->builder->param($setter['property']))
