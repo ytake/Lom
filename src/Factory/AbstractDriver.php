@@ -9,9 +9,9 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
-use Iono\Lom\Access;
+use Ytake\Lom\Access;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -22,7 +22,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Class AbstractDriver
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */

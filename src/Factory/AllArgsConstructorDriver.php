@@ -9,9 +9,9 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
-use Iono\Lom\Constants;
+use Ytake\Lom\Constants;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -19,7 +19,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 /**
  * Class AllArgsConstructorDriver
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */

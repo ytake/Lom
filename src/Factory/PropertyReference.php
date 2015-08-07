@@ -9,16 +9,16 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
-use Iono\Lom\Constants;
+use Ytake\Lom\Constants;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
 /**
  * Class PropertyReference
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
 abstract class PropertyReference extends AbstractDriver implements FactoryInterface

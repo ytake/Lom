@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: Iono\Lom
-        psr4_prefix: Iono\Lom
+        namespace: Ytake\Lom
+        psr4_prefix: Ytake\Lom
         src_path: src

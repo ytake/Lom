@@ -9,7 +9,7 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Expr\Variable;
@@ -18,7 +18,7 @@ use PhpParser\Node\Expr\PropertyFetch;
 /**
  * Class GetterTrait
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */

@@ -2,12 +2,12 @@
 
 class CodeParserTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Iono\Lom\CodeParser */
+    /** @var \Ytake\Lom\CodeParser */
     protected $parser;
 
     protected function setUp()
     {
-        $this->parser = new \Iono\Lom\CodeParser(
+        $this->parser = new \Ytake\Lom\CodeParser(
             new \PhpParser\Parser(
                 new \PhpParser\Lexer()
             )

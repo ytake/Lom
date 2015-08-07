@@ -2,12 +2,12 @@
 
 class AnnotationRegisterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Iono\Lom\AnnotationRegister */
+    /** @var \Ytake\Lom\AnnotationRegister */
     protected $register;
 
     protected function setUp()
     {
-        $this->register = new \Iono\Lom\AnnotationRegister();
+        $this->register = new \Ytake\Lom\AnnotationRegister();
     }
 
     public function testRegister()

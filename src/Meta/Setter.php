@@ -9,9 +9,9 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Meta;
+namespace Ytake\Lom\Meta;
 
-use Iono\Lom\Access;
+use Ytake\Lom\Access;
 
 /**
  * @Annotation

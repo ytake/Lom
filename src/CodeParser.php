@@ -9,14 +9,14 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom;
+namespace Ytake\Lom;
 
 use ReflectionClass;
 use PhpParser\Parser;
 
 /**
  * Class CodeParser
- * @package Iono\Lom
+ * @package Ytake\Lom
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */

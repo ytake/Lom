@@ -1,8 +1,8 @@
 <?php
 
-use Iono\Lom\Access;
-use Iono\Lom\Meta\AllArgsConstructor;
-use Iono\Lom\Meta\NoArgsConstructor;
+use Ytake\Lom\Access;
+use Ytake\Lom\Meta\AllArgsConstructor;
+use Ytake\Lom\Meta\NoArgsConstructor;
 
 /**
  * Class InconsistencyConstructorAnnotation

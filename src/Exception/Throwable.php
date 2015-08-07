@@ -9,18 +9,19 @@
  * THE SOFTWARE.
  */
 
-namespace Ytake\Lom\Meta;
-
-use Ytake\Lom\Access;
+namespace Ytake\Lom\Exception;
 
 /**
- * @Annotation
- * @Target("CLASS")
- * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
- * @license http://opensource.org/licenses/MIT MIT
+ * Interface Throwable
+ *
+ * @package Ytake\Lom\Exception
  */
-final class AllArgsConstructor
+interface Throwable
 {
-    /** @var int */
-    public $access = Access::LEVEL_PUBLIC; // constructor access level
+    /**
+     * @param array $annotations
+     *
+     * @return void
+     */
+    public function detectAnnotationErrorThrow(array $annotations);
 }

@@ -9,17 +9,18 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom;
+namespace Ytake\Lom;
 
 use ReflectionClass;
-use Iono\Lom\Factory\GeneratorFactory;
+use Ytake\Lom\Exception\Throwable;
+use Ytake\Lom\Factory\GeneratorFactory;
 use Doctrine\Common\Annotations\Reader;
-use Iono\Lom\Exception\InconsistencyException;
+use Ytake\Lom\Exception\ThrowInconsistency;
 
 /**
  * Class Lom
  *
- * @package Iono\Lom
+ * @package Ytake\Lom
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -40,19 +41,22 @@ class Lom
     /** @var */
     protected $method;
 
-    /** @var CodeParser  */
+    /** @var CodeParser */
     protected $parser;
 
     /**
-     * @param CodeParser $parser
+     * @param CodeParser     $parser
+     * @param Throwable|null $throw
      */
-    public function __construct(CodeParser $parser)
+    public function __construct(CodeParser $parser, Throwable $throw = null)
     {
         $this->parser = $parser;
+        $this->throw = (is_null($throw)) ? new ThrowInconsistency : $throw;
     }
 
     /**
      * @param $className
+     *
      * @return $this
      */
     public function target($className)
@@ -64,6 +68,7 @@ class Lom
 
     /**
      * @param AnnotationRegister $register
+     *
      * @return $this
      */
     public function register(AnnotationRegister $register)
@@ -75,38 +80,32 @@ class Lom
 
     /**
      * @param bool|false $printer
-     * @return $this|void
+     *
+     * @return array
      */
-    public function generateCode($printer = false, $fileName = null)
+    public function parseCode()
     {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
         $this->parsePropertyAnnotations($parsed);
 
-        $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
         if (!is_null($this->parsed)) {
             $parsed = $this->parsed;
         }
-        if ($printer) {
-            return $prettyPrinter->prettyPrintFile($parsed);
-        }
-        if(is_null($fileName)) {
-            $fileName = $this->reflection->getFileName();
-        }
-        file_put_contents($fileName, $prettyPrinter->prettyPrintFile($parsed));
-        return $this;
+        return $parsed;
     }
 
     /**
      * @param array $parsed
+     *
      * @return mixed
      */
     protected function parseClassAnnotations(array $parsed)
     {
         $annotations = $this->register->getClassAnnotations($this->reflection);
-        $this->detectException($annotations);
+        $this->throw->detectAnnotationErrorThrow($annotations);
         foreach ($annotations as $annotation) {
-            $this->parsed = $this->generator($parsed, $annotation);
+            $this->parsed = $this->callFactory($parsed, $annotation);
         }
     }
 
@@ -118,37 +117,20 @@ class Lom
         foreach ($this->reflection->getProperties() as $property) {
             foreach ($this->register->getPropertyAnnotations($property) as $propertyAnnotation) {
                 $this->setProperty($property);
-                $this->parsed = $this->generator($parsed, $propertyAnnotation);
+                $this->parsed = $this->callFactory($parsed, $propertyAnnotation);
             }
         }
     }
 
     /**
-     * @param $annotations
-     */
-    protected function detectException($annotations)
-    {
-        if(array_key_exists(\Iono\Lom\Meta\NoArgsConstructor::class, $annotations)
-            && array_key_exists(\Iono\Lom\Meta\AllArgsConstructor::class, $annotations)
-        ) {
-            throw new InconsistencyException;
-        }
-        if(array_key_exists(\Iono\Lom\Meta\Data::class, $annotations)
-            && array_key_exists(\Iono\Lom\Meta\Value::class, $annotations)
-        ) {
-            throw new InconsistencyException;
-        }
-    }
-
-
-    /**
      * @param array $parsed
      * @param       $annotation
+     *
      * @return mixed
      */
-    protected function generator(array $parsed, $annotation)
+    protected function callFactory(array $parsed, $annotation)
     {
-        /** @var \Iono\Lom\Factory\FactoryInterface $factory */
+        /** @var \Ytake\Lom\Factory\FactoryInterface $factory */
         $factory = (new GeneratorFactory($this->reflection, $parsed))
             ->driver($annotation);
         if (!is_null($this->property)) {

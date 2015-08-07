@@ -9,7 +9,7 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
 use ReflectionClass;
 use PhpParser\BuilderFactory;
@@ -17,7 +17,7 @@ use PhpParser\BuilderFactory;
 /**
  * Class GeneratorFactory
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -44,7 +44,7 @@ class GeneratorFactory
 
     /**
      * @param  $annotation
-     * @return \Iono\Lom\Factory\FactoryInterface
+     * @return \Ytake\Lom\Factory\FactoryInterface
      */
     public function driver($annotation)
     {

@@ -9,7 +9,7 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Meta;
+namespace Ytake\Lom\Meta;
 
 /**
  * @Annotation

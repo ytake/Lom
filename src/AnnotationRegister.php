@@ -9,7 +9,7 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom;
+namespace Ytake\Lom;
 
 use Doctrine\Common\Annotations\IndexedReader;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -18,7 +18,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 /**
  * Class AnnotationRegister
  *
- * @package Iono\Lom
+ * @package Ytake\Lom
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */

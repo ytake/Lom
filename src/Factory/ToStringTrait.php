@@ -9,14 +9,14 @@
  * THE SOFTWARE.
  */
 
-namespace Iono\Lom\Factory;
+namespace Ytake\Lom\Factory;
 
 use PhpParser\Node\Name;
 
 /**
  * Class ToStringTrait
  *
- * @package Iono\Lom\Factory
+ * @package Ytake\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
 trait ToStringTrait

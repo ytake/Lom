@@ -1,7 +1,7 @@
 <?php
 
-use Iono\Lom\CodeParser;
-use Iono\Lom\AnnotationRegister;
+use Ytake\Lom\CodeParser;
+use Ytake\Lom\AnnotationRegister;
 
 /**
  * Class GeneratorTest
@@ -12,15 +12,18 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $register;
     /** @var CodeParser */
     protected $codeParser;
-    /** @var \Iono\Lom\Lom */
+    /** @var \Ytake\Lom\Lom */
     protected $lom;
 
     protected function setUp()
     {
-        $this->lom = new \Iono\Lom\Lom(
-            new \Iono\Lom\CodeParser(
+        $this->lom = new \Ytake\Lom\Lom(
+            new \Ytake\Lom\CodeParser(
                 new \PhpParser\Parser(new \PhpParser\Lexer)
             )
+        );
+        $this->printer = new \Ytake\Lom\Printer(
+            new \PhpParser\PrettyPrinter\Standard()
         );
     }
 
@@ -30,8 +33,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($lom->getParsed());
 
         $detect = $lom->target('Testing');
-        $this->assertInstanceOf(\Iono\Lom\Lom::class, $detect);
-        $generated = $detect->generateCode(true);
+        $this->assertInstanceOf(\Ytake\Lom\Lom::class, $detect);
+        $generated = $detect->parseCode();
+        $generated = $this->printer->setStatement($generated)
+            ->display();
         $code = "<?php
 
 class Testing

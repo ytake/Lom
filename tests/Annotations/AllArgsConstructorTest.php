@@ -2,23 +2,29 @@
 
 class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Iono\Lom\Lom */
+    /** @var \Ytake\Lom\Lom */
     protected $lom;
-
+    /** @var \Ytake\Lom\Printer  */
+    protected $printer;
     protected function setUp()
     {
-        $this->lom = new \Iono\Lom\Lom(
-            new \Iono\Lom\CodeParser(
+        $this->lom = new \Ytake\Lom\Lom(
+            new \Ytake\Lom\CodeParser(
                 new \PhpParser\Parser(new \PhpParser\Lexer)
             )
+        );
+        $this->printer = new \Ytake\Lom\Printer(
+            new \PhpParser\PrettyPrinter\Standard()
         );
     }
 
     public function testGenerateCode()
     {
-        $code = $this->lom->register(new \Iono\Lom\AnnotationRegister())
+        $code = $this->lom->register(new \Ytake\Lom\AnnotationRegister())
             ->target('AllArgsConstructorAnnotation')
-            ->generateCode(true);
+            ->parseCode();
+        $code = $this->printer->setStatement($code)
+            ->display();
         $constructor = "public function __construct(\$message)
     {
         \$this->message = \$message;
@@ -28,9 +34,11 @@ class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
 
     public function testExistsConstructorGenerateCode()
     {
-        $code = $this->lom->register(new \Iono\Lom\AnnotationRegister())
+        $code = $this->lom->register(new \Ytake\Lom\AnnotationRegister())
             ->target('AllArgsConstructorExistsAnnotation')
-            ->generateCode(true);
+            ->parseCode();
+        $code = $this->printer->setStatement($code)
+            ->display();
         $this->assertContains('public function __construct($message)', $code);
 
     }

@@ -2,7 +2,7 @@
 
 /**
  * Class ValueAnnotation
- * @\Iono\Lom\Meta\Value
+ * @\Ytake\Lom\Meta\Value
  */
 class ValueAnnotation
 {

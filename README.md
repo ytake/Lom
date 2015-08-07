@@ -6,12 +6,23 @@ for php code generator
 [![StyleCI](https://styleci.io/repos/38492512/shield)](https://styleci.io/repos/38492512)  
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb/mini.png)](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb)
 
+# install
+```bash
+$ composer require ytake/lom --dev  
+```
+
+# usage
+generate command
+```bash
+$ vendor/bin/lom generate [scan target dir] 
+```
+
 # feature
 ##@Data Annotation
 
 ```php
 
-use Iono\Lom\Meta\Data;
+use Ytake\Lom\Meta\Data;
 
 /**
  * Class DataAnnotation
@@ -38,7 +49,7 @@ after
 
 ```php
 
-use Iono\Lom\Meta\Data;
+use Ytake\Lom\Meta\Data;
 
 /**
  * Class DataAnnotation
@@ -68,7 +79,7 @@ class DataAnnotation
 
 ```php
 
-use Iono\Lom\Meta\NoArgsConstructor;
+use Ytake\Lom\Meta\NoArgsConstructor;
 
 /**
  * Class DataAnnotation
@@ -89,7 +100,7 @@ after
 
 ```php
 
-use Iono\Lom\Meta\NoArgsConstructor;
+use Ytake\Lom\Meta\NoArgsConstructor;
 
 /**
  * Class DataAnnotation
@@ -106,7 +117,7 @@ class DataAnnotation
 
 ```php
 
-use Iono\Lom\Meta\AllArgsConstructor;
+use Ytake\Lom\Meta\AllArgsConstructor;
 
 /**
  * Class DataAnnotation
@@ -126,7 +137,7 @@ after
 
 ```php
 
-use Iono\Lom\Meta\AllArgsConstructor;
+use Ytake\Lom\Meta\AllArgsConstructor;
 
 /**
  * Class DataAnnotation
@@ -149,4 +160,5 @@ class DataAnnotation
 ```
 
 ##@Getter/@Setter Annotation
-TODO
+
+##@Value Annotation

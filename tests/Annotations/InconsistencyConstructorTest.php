@@ -2,25 +2,30 @@
 
 class InconsistencyConstructorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Iono\Lom\Lom */
+    /** @var \Ytake\Lom\Lom */
     protected $lom;
 
     protected function setUp()
     {
-        $this->lom = new \Iono\Lom\Lom(
-            new \Iono\Lom\CodeParser(
+        $this->lom = new \Ytake\Lom\Lom(
+            new \Ytake\Lom\CodeParser(
                 new \PhpParser\Parser(new \PhpParser\Lexer)
             )
+        );
+        $this->printer = new \Ytake\Lom\Printer(
+            new \PhpParser\PrettyPrinter\Standard()
         );
     }
 
     /**
-     * @expectedException \Iono\Lom\Exception\InconsistencyException
+     * @expectedException \Ytake\Lom\Exception\InconsistencyException
      */
     public function testGenerateCode()
     {
-        $this->lom->register(new \Iono\Lom\AnnotationRegister())
+        $this->lom->register(new \Ytake\Lom\AnnotationRegister())
             ->target('InconsistencyConstructorAnnotation')
-            ->generateCode(true);
+            ->parseCode();
+        $code = $this->printer->setStatement($code)
+            ->display();
     }
 }

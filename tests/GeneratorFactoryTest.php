@@ -2,12 +2,12 @@
 
 class GeneratorFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Iono\Lom\Factory\GeneratorFactory */
+    /** @var \Ytake\Lom\Factory\GeneratorFactory */
     protected $factory;
 
     protected function setUp()
     {
-        $this->factory = new \Iono\Lom\Factory\GeneratorFactory(
+        $this->factory = new \Ytake\Lom\Factory\GeneratorFactory(
             new \ReflectionClass(TestGenerator::class),
             []
         );
@@ -16,24 +16,24 @@ class GeneratorFactoryTest extends \PHPUnit_Framework_TestCase
     public function testDetectDriverFactory()
     {
         $this->assertInstanceOf(
-            \Iono\Lom\Factory\DataDriver::class,
-            $this->factory->driver(new \Iono\Lom\Meta\Data)
+            \Ytake\Lom\Factory\DataDriver::class,
+            $this->factory->driver(new \Ytake\Lom\Meta\Data)
         );
         $this->assertInstanceOf(
-            \Iono\Lom\Factory\AllArgsConstructorDriver::class,
-            $this->factory->driver(new \Iono\Lom\Meta\AllArgsConstructor)
+            \Ytake\Lom\Factory\AllArgsConstructorDriver::class,
+            $this->factory->driver(new \Ytake\Lom\Meta\AllArgsConstructor)
         );
         $this->assertInstanceOf(
-            \Iono\Lom\Factory\NoArgsConstructorDriver::class,
-            $this->factory->driver(new \Iono\Lom\Meta\NoArgsConstructor)
+            \Ytake\Lom\Factory\NoArgsConstructorDriver::class,
+            $this->factory->driver(new \Ytake\Lom\Meta\NoArgsConstructor)
         );
         $this->assertInstanceOf(
-            \Iono\Lom\Factory\GetterDriver::class,
-            $this->factory->driver(new \Iono\Lom\Meta\Getter)
+            \Ytake\Lom\Factory\GetterDriver::class,
+            $this->factory->driver(new \Ytake\Lom\Meta\Getter)
         );
         $this->assertInstanceOf(
-            \Iono\Lom\Factory\SetterDriver::class,
-            $this->factory->driver(new \Iono\Lom\Meta\Setter)
+            \Ytake\Lom\Factory\SetterDriver::class,
+            $this->factory->driver(new \Ytake\Lom\Meta\Setter)
         );
     }
 

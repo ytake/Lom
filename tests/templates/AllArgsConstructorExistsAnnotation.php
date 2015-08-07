@@ -1,7 +1,7 @@
 <?php
 
-use Iono\Lom\Access;
-use Iono\Lom\Meta\AllArgsConstructor;
+use Ytake\Lom\Access;
+use Ytake\Lom\Meta\AllArgsConstructor;
 
 /**
  * Class DataAnnotation
@@ -11,14 +11,15 @@ class AllArgsConstructorExistsAnnotation
 {
     /** @var string $message */
     protected $message;
-
-    public function __construct()
+    
+    /**
+     *
+     */
+    public function __construct($message)
     {
-
+        $this->message = $message;
     }
-
     public function getMessage()
     {
-
     }
 }
