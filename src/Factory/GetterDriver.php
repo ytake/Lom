@@ -11,11 +11,6 @@
 
 namespace Iono\Lom\Factory;
 
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Return_;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Expr\PropertyFetch;
-
 /**
  * Class GetterDriver
  *
@@ -23,55 +18,13 @@ use PhpParser\Node\Expr\PropertyFetch;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class GetterDriver extends AbstractDriver implements FactoryInterface
+class GetterDriver extends PropertyReference
 {
-    /** @var bool */
-    protected $exists = false;
-
-    /**
-     * @return array|mixed
-     */
-    public function generator()
-    {
-        foreach ($this->parsed as $part) {
-            if ($part instanceof Class_) {
-                $methodName = $this->resolveMethodName();
-                $this->removeMethod($part, $methodName);
-                $part->stmts[] = $this->createGetterMethod([
-                    'method' => $methodName,
-                    'property' => $this->property->getName()
-                ]);
-            }
-        }
-
-        return $this->parsed;
-    }
-
     /**
      * @return string
      */
     protected function resolveMethodName()
     {
         return "get" . ucfirst($this->property->getName());
-    }
-
-    /**
-     * @param array $getter
-     *
-     * @return \PhpParser\Node\Stmt\ClassMethod
-     */
-    protected function createGetterMethod(array $getter)
-    {
-        $detectAccessLevel = $this->setAccessLevel();
-
-        return $this->builder->method($getter['method'])
-            ->setDocComment("")
-            ->addStmt(
-                new Return_(
-                    new PropertyFetch(
-                        new Variable('this'), $getter['property']
-                    )
-                )
-            )->$detectAccessLevel()->getNode();
     }
 }

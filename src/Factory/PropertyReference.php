@@ -16,17 +16,13 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
 /**
- * Class GetterDriver
+ * Class PropertyReference
  *
  * @package Iono\Lom\Factory
- * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
- * @license http://opensource.org/licenses/MIT MIT
+ * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-class SetterDriver extends AbstractDriver implements FactoryInterface
+abstract class PropertyReference extends AbstractDriver implements FactoryInterface
 {
-    /** @var bool */
-    protected $exists = false;
-
     /**
      * @return array|mixed
      */
@@ -36,7 +32,7 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
             if ($part instanceof Class_) {
                 $methodName = $this->resolveMethodName();
                 $this->removeMethod($part, $methodName);
-                $part->stmts[] = $this->createSetterMethod([
+                $part->stmts[] = $this->createPropertyMethod([
                     'method' => $methodName,
                     'property' => $this->property->getName()
                 ]);
@@ -49,17 +45,14 @@ class SetterDriver extends AbstractDriver implements FactoryInterface
     /**
      * @return string
      */
-    protected function resolveMethodName()
-    {
-        return "set" . ucfirst($this->property->getName());
-    }
+    abstract protected function resolveMethodName();
 
     /**
      * @param array $setter
      *
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
-    protected function createSetterMethod(array $setter)
+    protected function createPropertyMethod(array $setter)
     {
         $detectAccessLevel = $this->setAccessLevel();
 

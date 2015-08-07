@@ -16,6 +16,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 use PhpParser\BuilderFactory;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -94,10 +95,12 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param $part
-     * @param $name
+     * @param Class_ $part
+     * @param        $name
+     *
+     * @return void
      */
-    protected function removeMethod($part, $name)
+    protected function removeMethod(Class_ $part, $name)
     {
         foreach ($part->stmts as $key => $statement) {
             if ($statement instanceof ClassMethod) {
@@ -121,18 +124,6 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param \ReflectionMethod $name
-     *
-     * @return $this
-     */
-    public function setMethod(ReflectionMethod $name)
-    {
-        $this->method = $name;
-
-        return $this;
-    }
-
-    /**
      * detect constructor access level
      *
      * @return string
@@ -142,13 +133,10 @@ abstract class AbstractDriver
         switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:
                 return 'makePrivate';
-                break;
             case Access::LEVEL_PROTECTED:
                 return 'makeProtected';
-                break;
             default:
                 return 'makePublic';
-                break;
         }
     }
 }

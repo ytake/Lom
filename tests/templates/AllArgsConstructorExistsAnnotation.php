@@ -16,4 +16,9 @@ class AllArgsConstructorExistsAnnotation
     {
 
     }
+
+    public function getMessage()
+    {
+
+    }
 }
