@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,23 +12,21 @@
 
 namespace Ytake\Lom\Factory;
 
-use Ytake\Lom\Access;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
 use PhpParser\BuilderFactory;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
+use Ytake\Lom\Access;
 
 /**
- * Class AbstractDriver
+ * Class AbstractDriver.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-abstract class AbstractDriver
-{
+abstract class AbstractDriver {
     /** @var ReflectionClass */
     protected $reflector;
 
@@ -50,21 +49,19 @@ abstract class AbstractDriver
      * @param array          $parsed
      * @param BuilderFactory $builder
      */
-    public function __construct(array $parsed, BuilderFactory $builder)
-    {
+    public function __construct(array $parsed, BuilderFactory $builder) {
         $this->parsed = $parsed;
         $this->builder = $builder;
     }
 
     /**
-     * set ReflectionClass
+     * set ReflectionClass.
      *
      * @param ReflectionClass $reflection
      *
      * @return $this
      */
-    public function setReflector(ReflectionClass $reflection)
-    {
+    public function setReflector(ReflectionClass $reflection) {
         $this->reflector = $reflection;
 
         return $this;
@@ -75,20 +72,27 @@ abstract class AbstractDriver
      *
      * @return $this
      */
-    public function setAnnotationInstance($annotation)
-    {
+    public function setAnnotationInstance($annotation) {
         $this->annotation = $annotation;
 
         return $this;
     }
 
     /**
-     * @param $part
+     * @param ReflectionProperty $name
      *
-     * @return void
+     * @return $this
      */
-    protected function removeConstructor($part)
-    {
+    public function setProperty(ReflectionProperty $name) {
+        $this->property = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param $part
+     */
+    protected function removeConstructor($part) {
         if (!is_null($this->reflector->getConstructor())) {
             $this->removeMethod($part, '__construct');
         }
@@ -97,11 +101,8 @@ abstract class AbstractDriver
     /**
      * @param Class_ $part
      * @param        $name
-     *
-     * @return void
      */
-    protected function removeMethod(Class_ $part, $name)
-    {
+    protected function removeMethod(Class_ $part, $name) {
         foreach ($part->stmts as $key => $statement) {
             if ($statement instanceof ClassMethod) {
                 if ($statement->name === $name) {
@@ -112,24 +113,11 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param ReflectionProperty $name
-     *
-     * @return $this
-     */
-    public function setProperty(ReflectionProperty $name)
-    {
-        $this->property = $name;
-
-        return $this;
-    }
-
-    /**
-     * detect constructor access level
+     * detect constructor access level.
      *
      * @return string
      */
-    protected function setAccessLevel()
-    {
+    protected function setAccessLevel() {
         switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:
                 return 'makePrivate';

@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,25 +12,20 @@
 
 namespace Ytake\Lom\Factory;
 
-use PhpParser\Node\Name;
-
 /**
- * Class ToStringTrait
+ * Class ToStringTrait.
  *
- * @package Ytake\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-trait ToStringTrait
-{
+trait ToStringTrait {
     /**
      * @param \string[] $getters
      *
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
-    protected function createToString(array $getters)
-    {
+    protected function createToString(array $getters) {
         $class = $this->reflector->getName();
-        $classMethods = [];
+        $classMethods = array();
         foreach ($getters as $getter) {
             $classMethods[] = "\$this->{$getter['method']}()";
         }
@@ -37,9 +33,9 @@ trait ToStringTrait
         $build = "return '{$class}(' . $stringBuilder . ')';";
 
         return $this->builder->method('__toString')
-            ->setDocComment("")
+            ->setDocComment('')
             ->addStmt(
-                new Name($build)
+                new \PhpParser\Node\Stmt\Class_($build)
             )->makePublic()->getNode();
     }
 }

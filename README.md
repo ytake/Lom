@@ -161,4 +161,46 @@ class DataAnnotation
 
 ##@Getter/@Setter Annotation
 
+```php
+use Ytake\Lom\Meta\Getter;
+use Ytake\Lom\Meta\Setter;
+
+class GetterSetterAnnotation
+{
+    /**
+     * @Getter @Setter
+     * @var string $message
+     */
+    private $message;
+    /**
+     * @Getter @Setter
+     * @var string $testing
+     */
+    private $testing;
+}
+```
+
 ##@Value Annotation
+
+```php
+/**
+ * Class ValueAnnotation
+ * @\Ytake\Lom\Meta\Value
+ */
+class ValueAnnotation
+{
+    /**
+     * @var string $message
+     */
+    protected $message;
+
+    /**
+     * @var string $testing
+     */
+    protected $testing;
+
+    /** @var string $hello */
+    protected $hello;
+}
+
+```

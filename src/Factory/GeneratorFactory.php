@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,18 +12,16 @@
 
 namespace Ytake\Lom\Factory;
 
-use ReflectionClass;
 use PhpParser\BuilderFactory;
+use ReflectionClass;
 
 /**
- * Class GeneratorFactory
+ * Class GeneratorFactory.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class GeneratorFactory
-{
+class GeneratorFactory {
     /** @var array */
     protected $parsed;
 
@@ -36,20 +35,19 @@ class GeneratorFactory
      * @param ReflectionClass $reflectionClass
      * @param array           $parsed
      */
-    public function __construct(ReflectionClass $reflectionClass, array $parsed)
-    {
+    public function __construct(ReflectionClass $reflectionClass, array $parsed) {
         $this->reflectionClass = $reflectionClass;
         $this->parsed = $parsed;
     }
 
     /**
      * @param  $annotation
+     *
      * @return \Ytake\Lom\Factory\FactoryInterface
      */
-    public function driver($annotation)
-    {
+    public function driver($annotation) {
         $className = explode('\\', get_class($annotation));
-        $driverClass = 'create' . ucfirst(end($className)) . 'Driver';
+        $driverClass = 'create'.ucfirst(end($className)).'Driver';
         $this->annotation = $annotation;
 
         return $this->$driverClass();
@@ -58,75 +56,70 @@ class GeneratorFactory
     /**
      * @return DataDriver
      */
-    protected function createDataDriver()
-    {
+    protected function createDataDriver() {
         return (new DataDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass);
     }
 
     /**
      * @return DataDriver
      */
-    protected function createValueDriver()
-    {
+    protected function createValueDriver() {
         return (new ValueDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass);
     }
 
     /**
-     * for NoArgsConstructor Annotation Driver
+     * for NoArgsConstructor Annotation Driver.
+     *
      * @return NoArgsConstructorDriver
      */
-    protected function createNoArgsConstructorDriver()
-    {
+    protected function createNoArgsConstructorDriver() {
         return (new NoArgsConstructorDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass);
     }
 
     /**
-     * for AllArgsConstructor Annotation Driver
+     * for AllArgsConstructor Annotation Driver.
      *
      * @return AllArgsConstructorDriver
      */
-    protected function createAllArgsConstructorDriver()
-    {
+    protected function createAllArgsConstructorDriver() {
         return (new AllArgsConstructorDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass)
             ->setAnnotationInstance($this->annotation);
     }
 
     /**
-     * for Getter Annotation Driver
+     * for Getter Annotation Driver.
      *
      * @return GetterDriver
      */
-    protected function createGetterDriver()
-    {
+    protected function createGetterDriver() {
         return (new GetterDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass)
             ->setAnnotationInstance($this->annotation);
     }
 
     /**
-     * for Setter Annotation Driver
+     * for Setter Annotation Driver.
      *
      * @return GetterDriver
      */
-    protected function createSetterDriver()
-    {
+    protected function createSetterDriver() {
         return (new SetterDriver(
             $this->parsed,
-            new BuilderFactory
+            new BuilderFactory()
         ))->setReflector($this->reflectionClass)
             ->setAnnotationInstance($this->annotation);
     }

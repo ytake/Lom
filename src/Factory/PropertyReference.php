@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,31 +12,27 @@
 
 namespace Ytake\Lom\Factory;
 
-use Ytake\Lom\Constants;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use Ytake\Lom\Constants;
 
 /**
- * Class PropertyReference
+ * Class PropertyReference.
  *
- * @package Ytake\Lom\Factory
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-abstract class PropertyReference extends AbstractDriver implements FactoryInterface
-{
+abstract class PropertyReference extends AbstractDriver implements FactoryInterface {
     /**
      * @return array|mixed
      */
-    public function generator()
-    {
+    public function generator() {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
                 $methodName = $this->resolveMethodName();
                 $this->removeMethod($part, $methodName);
-                $part->stmts[] = $this->createPropertyMethod([
+                $part->stmts[] = $this->createPropertyMethod(array(
                     'method' => $methodName,
-                    'property' => $this->property->getName()
-                ]);
+                    'property' => $this->property->getName(),
+                ));
             }
         }
 
@@ -52,15 +49,14 @@ abstract class PropertyReference extends AbstractDriver implements FactoryInterf
      *
      * @return \PhpParser\Node\Stmt\ClassMethod
      */
-    protected function createPropertyMethod(array $setter)
-    {
+    protected function createPropertyMethod(array $setter) {
         $detectAccessLevel = $this->setAccessLevel();
 
         return $this->builder->method($setter['method'])
-            ->setDocComment("")
+            ->setDocComment('')
             ->addParam($this->builder->param($setter['property']))
             ->addStmt(
-                new Name(
+                new \PhpParser\Node\Stmt\Class_(
                     sprintf(Constants::SETTER_FORMAT, $setter['property'], $setter['property'])
                 )
             )->$detectAccessLevel()->getNode();

@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,26 +12,22 @@
 
 namespace Ytake\Lom\Factory;
 
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
 /**
- * Class ValueDriver
+ * Class ValueDriver.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class ValueDriver extends AbstractDriver implements FactoryInterface
-{
+class ValueDriver extends AbstractDriver implements FactoryInterface {
     // getter generator
     use GetterTrait, ToStringTrait;
 
     /**
      * @return array|mixed
      */
-    public function generator()
-    {
+    public function generator() {
         foreach ($this->reflector->getProperties() as $property) {
             $name = $property->getName();
             $this->createGetter($name);
@@ -48,7 +45,7 @@ class ValueDriver extends AbstractDriver implements FactoryInterface
                 }
             }
         }
+
         return $this->parsed;
     }
-
 }

@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,35 +12,32 @@
 
 namespace Ytake\Lom;
 
-use ReflectionClass;
 use PhpParser\Parser;
+use ReflectionClass;
 
 /**
- * Class CodeParser
- * @package Ytake\Lom
+ * Class CodeParser.
+ *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class CodeParser
-{
-
-    /** @var Parser  */
+class CodeParser {
+    /** @var Parser */
     protected $parser;
 
     /**
      * @param Parser $parser
      */
-    public function __construct(Parser $parser)
-    {
+    public function __construct(Parser $parser) {
         $this->parser = $parser;
     }
 
     /**
      * @param ReflectionClass $reflectionClass
+     *
      * @return null|\PhpParser\Node[]
      */
-    public function parser(ReflectionClass $reflectionClass)
-    {
+    public function parser(ReflectionClass $reflectionClass) {
         return $this->parser->parse(
             file_get_contents($reflectionClass->getFileName())
         );

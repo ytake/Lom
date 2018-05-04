@@ -5,8 +5,6 @@ use Ytake\Lom\Meta\AllArgsConstructor;
 use Ytake\Lom\Meta\NoArgsConstructor;
 
 /**
- * Class InconsistencyConstructorAnnotation
- *
  * @AllArgsConstructor(access=Access::LEVEL_PROTECTED)
  * @NoArgsConstructor
  */

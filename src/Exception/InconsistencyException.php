@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -12,14 +13,12 @@
 namespace Ytake\Lom\Exception;
 
 /**
- * Class InconsistencyException
+ * Class InconsistencyException.
  *
- * @package Ytake\Lom\Exception
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-final class InconsistencyException extends \LogicException
-{
+final class InconsistencyException extends \LogicException {
     /** @var string */
-    protected $message = "Inconsistency Annotations";
+    protected $message = 'Inconsistency Annotations';
 }
