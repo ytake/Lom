@@ -1,9 +1,6 @@
 # Lom
 for php code generator  
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ytake/Lom/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/ytake/Lom/?branch=develop)
 [![Build Status](https://travis-ci.org/ytake/Lom.svg?branch=develop)](https://travis-ci.org/ytake/Lom)
-[![Coverage Status](https://coveralls.io/repos/ytake/Lom/badge.svg?branch=develop&service=github)](https://coveralls.io/github/ytake/Lom?branch=develop)
-[![StyleCI](https://styleci.io/repos/38492512/shield)](https://styleci.io/repos/38492512)  
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb/mini.png)](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb)
 
 # install
@@ -18,7 +15,7 @@ $ vendor/bin/lom generate [scan target dir]
 ```
 
 # feature
-##@Data Annotation
+## @Data Annotation
 
 ```php
 
@@ -75,7 +72,7 @@ class DataAnnotation
 }
 ```
 
-##@NoArgsConstructor Annotation
+## @NoArgsConstructor Annotation
 
 ```php
 
@@ -113,7 +110,7 @@ class DataAnnotation
 
 ```
 
-##@AllArgsConstructor Annotation
+## @AllArgsConstructor Annotation
 
 ```php
 
@@ -159,7 +156,7 @@ class DataAnnotation
 
 ```
 
-##@Getter/@Setter Annotation
+## @Getter/@Setter Annotation
 
 ```php
 use Ytake\Lom\Meta\Getter;
@@ -180,7 +177,7 @@ class GetterSetterAnnotation
 }
 ```
 
-##@Value Annotation
+## @Value Annotation
 
 ```php
 /**
