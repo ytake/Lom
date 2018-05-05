@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,18 +14,22 @@
 
 namespace Ytake\Lom\Factory;
 
+use PhpParser\Node\Stmt\ClassMethod;
+
 /**
  * Class ToStringTrait.
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-trait ToStringTrait {
+trait ToStringTrait
+{
     /**
      * @param \string[] $getters
      *
-     * @return \PhpParser\Node\Stmt\ClassMethod
+     * @return ClassMethod
      */
-    protected function createToString(array $getters) {
+    protected function createToString(array $getters): ClassMethod
+    {
         $class = $this->reflector->getName();
         $classMethods = array();
         foreach ($getters as $getter) {

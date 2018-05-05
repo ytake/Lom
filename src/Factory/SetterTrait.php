@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,14 +20,16 @@ namespace Ytake\Lom\Factory;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-trait SetterTrait {
+trait SetterTrait
+{
     /** @var string[] */
     protected $setters = array();
 
     /**
-     * @param $name
+     * @param string $name
      */
-    protected function createSetter($name) {
+    protected function createSetter(string $name)
+    {
         $this->setters[] = array(
             'method' => 'set'.ucfirst($name),
             'property' => $name,
@@ -35,7 +39,8 @@ trait SetterTrait {
     /**
      * @return \string[]
      */
-    protected function getSetters() {
+    protected function getSetters(): ?array
+    {
         return $this->setters;
     }
 }

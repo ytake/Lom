@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,11 +20,13 @@ namespace Ytake\Lom\Factory;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class GetterDriver extends PropertyReference {
+class GetterDriver extends PropertyReference
+{
     /**
      * @return string
      */
-    protected function resolveMethodName() {
+    protected function resolveMethodName(): string
+    {
         return 'get'.ucfirst($this->property->getName());
     }
 }

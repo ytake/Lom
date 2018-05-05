@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,13 +24,15 @@ use Doctrine\Common\Annotations\IndexedReader;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class AnnotationRegister {
+class AnnotationRegister
+{
     /**
      * annotations register.
      *
      * @return $this
      */
-    public function register() {
+    final public function register(): self
+    {
         $iterator = new \DirectoryIterator(__DIR__.'/Meta');
         foreach ($iterator as $file) {
             if ($file->isFile()) {
@@ -45,7 +49,8 @@ class AnnotationRegister {
      *
      * @return IndexedReader
      */
-    public function getReader() {
+    public function getReader(): IndexedReader
+    {
         return new IndexedReader(new AnnotationReader());
     }
 }

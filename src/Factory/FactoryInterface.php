@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,9 +20,10 @@ namespace Ytake\Lom\Factory;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-interface FactoryInterface {
+interface FactoryInterface
+{
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function generator();
+    public function generator(): ?array;
 }

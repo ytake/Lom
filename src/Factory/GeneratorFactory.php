@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,7 +23,8 @@ use ReflectionClass;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class GeneratorFactory {
+class GeneratorFactory
+{
     /** @var array */
     protected $parsed;
 
@@ -35,7 +38,8 @@ class GeneratorFactory {
      * @param ReflectionClass $reflectionClass
      * @param array           $parsed
      */
-    public function __construct(ReflectionClass $reflectionClass, array $parsed) {
+    public function __construct(ReflectionClass $reflectionClass, array $parsed)
+    {
         $this->reflectionClass = $reflectionClass;
         $this->parsed = $parsed;
     }
@@ -43,9 +47,10 @@ class GeneratorFactory {
     /**
      * @param  $annotation
      *
-     * @return \Ytake\Lom\Factory\FactoryInterface
+     * @return FactoryInterface
      */
-    public function driver($annotation) {
+    public function driver($annotation): FactoryInterface
+    {
         $className = explode('\\', get_class($annotation));
         $driverClass = 'create'.ucfirst(end($className)).'Driver';
         $this->annotation = $annotation;
@@ -56,7 +61,8 @@ class GeneratorFactory {
     /**
      * @return DataDriver
      */
-    protected function createDataDriver() {
+    protected function createDataDriver(): DataDriver
+    {
         return (new DataDriver(
             $this->parsed,
             new BuilderFactory()
@@ -64,9 +70,10 @@ class GeneratorFactory {
     }
 
     /**
-     * @return DataDriver
+     * @return ValueDriver
      */
-    protected function createValueDriver() {
+    protected function createValueDriver(): ValueDriver
+    {
         return (new ValueDriver(
             $this->parsed,
             new BuilderFactory()
@@ -78,7 +85,8 @@ class GeneratorFactory {
      *
      * @return NoArgsConstructorDriver
      */
-    protected function createNoArgsConstructorDriver() {
+    protected function createNoArgsConstructorDriver(): NoArgsConstructorDriver
+    {
         return (new NoArgsConstructorDriver(
             $this->parsed,
             new BuilderFactory()
@@ -90,7 +98,8 @@ class GeneratorFactory {
      *
      * @return AllArgsConstructorDriver
      */
-    protected function createAllArgsConstructorDriver() {
+    protected function createAllArgsConstructorDriver(): AllArgsConstructorDriver
+    {
         return (new AllArgsConstructorDriver(
             $this->parsed,
             new BuilderFactory()
@@ -103,7 +112,8 @@ class GeneratorFactory {
      *
      * @return GetterDriver
      */
-    protected function createGetterDriver() {
+    protected function createGetterDriver(): GetterDriver
+    {
         return (new GetterDriver(
             $this->parsed,
             new BuilderFactory()
@@ -114,9 +124,10 @@ class GeneratorFactory {
     /**
      * for Setter Annotation Driver.
      *
-     * @return GetterDriver
+     * @return SetterDriver
      */
-    protected function createSetterDriver() {
+    protected function createSetterDriver(): SetterDriver
+    {
         return (new SetterDriver(
             $this->parsed,
             new BuilderFactory()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -14,6 +16,7 @@ namespace Ytake\Lom;
 
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
+use ReflectionProperty;
 use Ytake\Lom\Exception\Throwable;
 use Ytake\Lom\Exception\ThrowInconsistency;
 use Ytake\Lom\Factory\GeneratorFactory;
@@ -24,7 +27,8 @@ use Ytake\Lom\Factory\GeneratorFactory;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class Lom {
+class Lom
+{
     /** @var ReflectionClass */
     protected $reflection;
 
@@ -47,17 +51,21 @@ class Lom {
      * @param CodeParser     $parser
      * @param Throwable|null $throw
      */
-    public function __construct(CodeParser $parser, Throwable $throw = null) {
+    public function __construct(CodeParser $parser, Throwable $throw = null)
+    {
         $this->parser = $parser;
         $this->throw = (is_null($throw)) ? new ThrowInconsistency() : $throw;
     }
 
     /**
-     * @param $className
+     * @param string $className
+     *
+     * @throws \ReflectionException
      *
      * @return $this
      */
-    public function target($className) {
+    final public function target(string $className): self
+    {
         $this->reflection = new ReflectionClass($className);
 
         return $this;
@@ -66,20 +74,22 @@ class Lom {
     /**
      * @param AnnotationRegister $register
      *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     *
      * @return $this
      */
-    public function register(AnnotationRegister $register) {
+    final public function register(AnnotationRegister $register): self
+    {
         $this->register = $register->register()->getReader();
 
         return $this;
     }
 
     /**
-     * @param bool|false $printer
-     *
      * @return array
      */
-    public function parseCode() {
+    public function parseCode(): ?array
+    {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
         $this->parsePropertyAnnotations($parsed);
@@ -92,18 +102,18 @@ class Lom {
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getParsed() {
+    public function getParsed(): ?array
+    {
         return $this->parsed;
     }
 
     /**
      * @param array $parsed
-     *
-     * @return mixed
      */
-    protected function parseClassAnnotations(array $parsed) {
+    protected function parseClassAnnotations(array $parsed)
+    {
         $annotations = $this->register->getClassAnnotations($this->reflection);
         $this->throw->detectAnnotationErrorThrow($annotations);
         foreach ($annotations as $annotation) {
@@ -114,7 +124,8 @@ class Lom {
     /**
      * @param array $parsed
      */
-    protected function parsePropertyAnnotations(array $parsed) {
+    protected function parsePropertyAnnotations(array $parsed)
+    {
         foreach ($this->reflection->getProperties() as $property) {
             foreach ($this->register->getPropertyAnnotations($property) as $propertyAnnotation) {
                 $this->setProperty($property);
@@ -127,9 +138,10 @@ class Lom {
      * @param array $parsed
      * @param       $annotation
      *
-     * @return mixed
+     * @return array|null
      */
-    protected function callFactory(array $parsed, $annotation) {
+    protected function callFactory(array $parsed, $annotation): ?array
+    {
         /** @var \Ytake\Lom\Factory\FactoryInterface $factory */
         $factory = (new GeneratorFactory($this->reflection, $parsed))
             ->driver($annotation);
@@ -141,9 +153,10 @@ class Lom {
     }
 
     /**
-     * @param $property
+     * @param ReflectionProperty $property
      */
-    protected function setProperty($property) {
+    protected function setProperty(ReflectionProperty $property)
+    {
         $this->property = $property;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -13,6 +15,7 @@
 namespace Ytake\Lom\Factory;
 
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use Ytake\Lom\Constants;
 
 /**
@@ -20,11 +23,13 @@ use Ytake\Lom\Constants;
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-abstract class PropertyReference extends AbstractDriver implements FactoryInterface {
+abstract class PropertyReference extends AbstractDriver implements FactoryInterface
+{
     /**
-     * @return array|mixed
+     * {@inheritdoc}
      */
-    public function generator() {
+    public function generator(): ?array
+    {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
                 $methodName = $this->resolveMethodName();
@@ -42,14 +47,15 @@ abstract class PropertyReference extends AbstractDriver implements FactoryInterf
     /**
      * @return string
      */
-    abstract protected function resolveMethodName();
+    abstract protected function resolveMethodName(): string;
 
     /**
      * @param array $setter
      *
-     * @return \PhpParser\Node\Stmt\ClassMethod
+     * @return ClassMethod
      */
-    protected function createPropertyMethod(array $setter) {
+    protected function createPropertyMethod(array $setter): ClassMethod
+    {
         $detectAccessLevel = $this->setAccessLevel();
 
         return $this->builder->method($setter['method'])

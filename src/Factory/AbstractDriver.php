@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,7 +28,8 @@ use Ytake\Lom\Access;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-abstract class AbstractDriver {
+abstract class AbstractDriver
+{
     /** @var ReflectionClass */
     protected $reflector;
 
@@ -49,7 +52,8 @@ abstract class AbstractDriver {
      * @param array          $parsed
      * @param BuilderFactory $builder
      */
-    public function __construct(array $parsed, BuilderFactory $builder) {
+    public function __construct(array $parsed, BuilderFactory $builder)
+    {
         $this->parsed = $parsed;
         $this->builder = $builder;
     }
@@ -61,7 +65,8 @@ abstract class AbstractDriver {
      *
      * @return $this
      */
-    public function setReflector(ReflectionClass $reflection) {
+    public function setReflector(ReflectionClass $reflection)
+    {
         $this->reflector = $reflection;
 
         return $this;
@@ -72,7 +77,8 @@ abstract class AbstractDriver {
      *
      * @return $this
      */
-    public function setAnnotationInstance($annotation) {
+    public function setAnnotationInstance($annotation)
+    {
         $this->annotation = $annotation;
 
         return $this;
@@ -83,7 +89,8 @@ abstract class AbstractDriver {
      *
      * @return $this
      */
-    public function setProperty(ReflectionProperty $name) {
+    public function setProperty(ReflectionProperty $name)
+    {
         $this->property = $name;
 
         return $this;
@@ -92,7 +99,8 @@ abstract class AbstractDriver {
     /**
      * @param $part
      */
-    protected function removeConstructor($part) {
+    protected function removeConstructor($part)
+    {
         if (!is_null($this->reflector->getConstructor())) {
             $this->removeMethod($part, '__construct');
         }
@@ -100,9 +108,10 @@ abstract class AbstractDriver {
 
     /**
      * @param Class_ $part
-     * @param        $name
+     * @param string $name
      */
-    protected function removeMethod(Class_ $part, $name) {
+    protected function removeMethod(Class_ $part, string $name)
+    {
         foreach ($part->stmts as $key => $statement) {
             if ($statement instanceof ClassMethod) {
                 if ($statement->name === $name) {
@@ -117,7 +126,8 @@ abstract class AbstractDriver {
      *
      * @return string
      */
-    protected function setAccessLevel() {
+    protected function setAccessLevel(): string
+    {
         switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:
                 return 'makePrivate';

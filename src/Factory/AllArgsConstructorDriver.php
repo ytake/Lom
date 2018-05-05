@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,11 +24,13 @@ use Ytake\Lom\Constants;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface {
+class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface
+{
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function generator() {
+    public function generator(): ?array
+    {
         foreach ($this->parsed as $part) {
             // auto generate for constructor
             if ($part instanceof Class_) {
@@ -50,7 +54,8 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
     /**
      * @return ClassMethod
      */
-    protected function createConstructor() {
+    protected function createConstructor(): ClassMethod
+    {
         $properties = array();
         $sets = array();
         foreach ($this->reflector->getProperties() as $property) {

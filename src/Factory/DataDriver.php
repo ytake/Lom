@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -13,6 +15,7 @@
 namespace Ytake\Lom\Factory;
 
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use Ytake\Lom\Constants;
 
 /**
@@ -21,14 +24,16 @@ use Ytake\Lom\Constants;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class DataDriver extends AbstractDriver implements FactoryInterface {
+class DataDriver extends AbstractDriver implements FactoryInterface
+{
     // getter generator and setter generator
     use GetterTrait, SetterTrait, ToStringTrait;
 
     /**
-     * @return array|mixed
+     * {@inheritdoc}
      */
-    public function generator() {
+    public function generator(): ?array
+    {
         foreach ($this->reflector->getProperties() as $property) {
             $name = $property->getName();
             $this->createGetter($name);
@@ -60,14 +65,15 @@ class DataDriver extends AbstractDriver implements FactoryInterface {
     /**
      * @param array $setter
      *
-     * @return \PhpParser\Node\Stmt\ClassMethod
+     * @return ClassMethod
      */
-    protected function createSetterMethod(array $setter) {
+    protected function createSetterMethod(array $setter): ClassMethod
+    {
         return $this->builder->method($setter['method'])
             ->setDocComment('')
             ->addParam($this->builder->param($setter['property']))
             ->addStmt(
-                new \PhpParser\Node\Stmt\Class_(
+                new Class_(
                     sprintf(Constants::SETTER_FORMAT, $setter['property'], $setter['property'])
                 )
             )->makePublic()->getNode();

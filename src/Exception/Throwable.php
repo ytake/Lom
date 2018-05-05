@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,7 +17,8 @@ namespace Ytake\Lom\Exception;
 /**
  * Interface Throwable.
  */
-interface Throwable {
+interface Throwable
+{
     /**
      * @param array $annotations
      */

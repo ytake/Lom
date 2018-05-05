@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 class DataGetterSetterTest extends \PHPUnit\Framework\TestCase
 {

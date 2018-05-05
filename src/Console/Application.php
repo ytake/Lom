@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,6 +14,9 @@
 
 namespace Ytake\Lom\Console;
 
+use PhpParser\Lexer;
+use PhpParser\Parser\Php7;
+use Ytake\Lom\CodeParser;
 use Ytake\Lom\Lom;
 
 /**
@@ -19,26 +24,29 @@ use Ytake\Lom\Lom;
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-class Application extends \Symfony\Component\Console\Application {
+class Application extends \Symfony\Component\Console\Application
+{
     /** @var string */
     protected $name = 'lom';
 
-    /** @var float */
-    protected $version = 0.2;
+    /** @var string */
+    protected $version = '0.2';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct($this->name, $this->version);
     }
 
     /**
      * @throws \Exception
      */
-    public function boot() {
+    public function boot()
+    {
         $this->add(
             new GenerateCommand(
-                new \Ytake\Lom\Lom(
-                    new \Ytake\Lom\CodeParser(
-                        new \PhpParser\Parser\Php7(new \PhpParser\Lexer())
+                new Lom(
+                    new CodeParser(
+                        new Php7(new Lexer())
                     )
                 )
             )

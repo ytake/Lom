@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,8 @@ use PhpParser\PrettyPrinterAbstract;
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-class Printer {
+class Printer
+{
     /** @var array */
     protected $parsed;
 
@@ -29,7 +32,8 @@ class Printer {
     /**
      * @param PrettyPrinterAbstract $printer
      */
-    public function __construct(PrettyPrinterAbstract $printer) {
+    public function __construct(PrettyPrinterAbstract $printer)
+    {
         $this->printer = $printer;
     }
 
@@ -38,20 +42,26 @@ class Printer {
      *
      * @return $this
      */
-    public function setStatement(array $parsed) {
+    public function setStatement(array $parsed)
+    {
         $this->parsed = $parsed;
 
         return $this;
     }
 
-    public function display() {
+    /**
+     * @return null|string
+     */
+    public function display(): ?string
+    {
         return $this->printer->prettyPrint($this->parsed);
     }
 
     /**
-     * @param $fileName
+     * @param string $fileName
      */
-    public function putFile($fileName) {
+    public function putFile(string $fileName)
+    {
         file_put_contents($fileName, $this->printer->prettyPrintFile($this->parsed));
     }
 }

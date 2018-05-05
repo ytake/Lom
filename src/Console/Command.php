@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -17,7 +19,8 @@ namespace Ytake\Lom\Console;
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-abstract class Command extends \Symfony\Component\Console\Command\Command {
+abstract class Command extends \Symfony\Component\Console\Command\Command
+{
     /** @var string command name */
     protected $command;
 
@@ -27,14 +30,12 @@ abstract class Command extends \Symfony\Component\Console\Command\Command {
     /**
      * command interface configure.
      */
-    public function configure() {
+    public function configure()
+    {
         $this->setName($this->command);
         $this->setDescription($this->description);
         $this->arguments();
     }
 
-    /**
-     * @return mixed
-     */
     abstract protected function arguments();
 }

@@ -14,13 +14,19 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(false)
     ->setRules([
         '@PSR2' => true,
+        'declare_strict_types' => true,
         '@PHP56Migration' => false,
         '@Symfony' => true,
         '@Symfony:risky' => false,
         //'align_multiline_comment' => true,
         'array_syntax' => ['syntax' => 'long'],
         //'blank_line_before_statement' => true,
-        'braces' => ['position_after_functions_and_oop_constructs' => 'same'],
+        'braces' => [
+            'allow_single_line_closure' => false,
+            'position_after_anonymous_constructs' => 'same',
+            'position_after_control_structures' => 'same',
+            'position_after_functions_and_oop_constructs' => 'next'
+        ],
         'combine_consecutive_unsets' => true,
         // one should use PHPUnit methods to set up expected exception instead of annotations
         'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
@@ -53,6 +59,7 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => true,
 
     ])
+    ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude('tests')
