@@ -10,6 +10,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
@@ -23,21 +28,21 @@ use Ytake\Lom\Constants;
  *
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
-abstract class PropertyReference extends AbstractDriver implements FactoryInterface
+abstract class PropertyReference extends AbstractDriver
 {
     /**
      * {@inheritdoc}
      */
-    public function generator(): ?array
+    public function generator(): array
     {
         foreach ($this->parsed as $part) {
             if ($part instanceof Class_) {
                 $methodName = $this->resolveMethodName();
                 $this->removeMethod($part, $methodName);
-                $part->stmts[] = $this->createPropertyMethod(array(
+                $part->stmts[] = $this->createPropertyMethod([
                     'method' => $methodName,
                     'property' => $this->property->getName(),
-                ));
+                ]);
             }
         }
 

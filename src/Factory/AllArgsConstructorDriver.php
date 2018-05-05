@@ -10,6 +10,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
@@ -24,12 +29,12 @@ use Ytake\Lom\Constants;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface
+class AllArgsConstructorDriver extends AbstractDriver
 {
     /**
      * {@inheritdoc}
      */
-    public function generator(): ?array
+    public function generator(): array
     {
         foreach ($this->parsed as $part) {
             // auto generate for constructor
@@ -56,8 +61,8 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
      */
     protected function createConstructor(): ClassMethod
     {
-        $properties = array();
-        $sets = array();
+        $properties = [];
+        $sets = [];
         foreach ($this->reflector->getProperties() as $property) {
             $properties[] = $this->builder->param($property->getName());
             $sets[] = new Class_(

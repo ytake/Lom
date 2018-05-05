@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: Ytake\Lom
-        psr4_prefix: Ytake\Lom
-        src_path: src

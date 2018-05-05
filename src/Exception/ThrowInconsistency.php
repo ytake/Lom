@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,6 +9,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Exception;
@@ -31,7 +35,7 @@ class ThrowInconsistency implements Throwable
      *
      * @throw InconsistencyException
      */
-    public function detectAnnotationErrorThrow(array $annotations)
+    public function detectAnnotationErrorThrow(array $annotations): void
     {
         if (array_key_exists(NoArgsConstructor::class, $annotations)
             && array_key_exists(AllArgsConstructor::class, $annotations)
