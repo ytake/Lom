@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,6 +9,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
@@ -28,13 +32,13 @@ use Ytake\Lom\Access;
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-abstract class AbstractDriver
+abstract class AbstractDriver implements FactoryInterface
 {
     /** @var ReflectionClass */
     protected $reflector;
 
     /** @var array */
-    protected $parsed;
+    protected $parsed = [];
 
     /** @var BuilderFactory */
     protected $builder;
@@ -65,7 +69,7 @@ abstract class AbstractDriver
      *
      * @return $this
      */
-    public function setReflector(ReflectionClass $reflection)
+    public function setReflector(ReflectionClass $reflection): AbstractDriver
     {
         $this->reflector = $reflection;
 
@@ -77,7 +81,7 @@ abstract class AbstractDriver
      *
      * @return $this
      */
-    public function setAnnotationInstance($annotation)
+    public function setAnnotationInstance($annotation): AbstractDriver
     {
         $this->annotation = $annotation;
 
@@ -89,7 +93,7 @@ abstract class AbstractDriver
      *
      * @return $this
      */
-    public function setProperty(ReflectionProperty $name)
+    public function setProperty(ReflectionProperty $name): AbstractDriver
     {
         $this->property = $name;
 
@@ -97,9 +101,9 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param $part
+     * @param Class_ $part
      */
-    protected function removeConstructor($part)
+    protected function removeConstructor(Class_ $part)
     {
         if (!is_null($this->reflector->getConstructor())) {
             $this->removeMethod($part, '__construct');

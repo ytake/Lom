@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,6 +9,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom;
@@ -40,9 +44,9 @@ class Printer
     /**
      * @param array $parsed
      *
-     * @return $this
+     * @return Printer
      */
-    public function setStatement(array $parsed)
+    public function setStatement(array $parsed): Printer
     {
         $this->parsed = $parsed;
 
@@ -60,7 +64,7 @@ class Printer
     /**
      * @param string $fileName
      */
-    public function putFile(string $fileName)
+    public function putFile(string $fileName): void
     {
         file_put_contents($fileName, $this->printer->prettyPrintFile($this->parsed));
     }

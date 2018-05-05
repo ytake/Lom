@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,6 +9,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
@@ -23,23 +27,23 @@ namespace Ytake\Lom\Factory;
 trait SetterTrait
 {
     /** @var string[] */
-    protected $setters = array();
+    protected $setters = [];
 
     /**
      * @param string $name
      */
     protected function createSetter(string $name)
     {
-        $this->setters[] = array(
+        $this->setters[] = [
             'method' => 'set'.ucfirst($name),
             'property' => $name,
-        );
+        ];
     }
 
     /**
      * @return \string[]
      */
-    protected function getSetters(): ?array
+    protected function getSetters(): array
     {
         return $this->setters;
     }

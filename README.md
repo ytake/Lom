@@ -1,7 +1,10 @@
 # Lom
 for php code generator  
-[![Build Status](https://travis-ci.org/ytake/Lom.svg?branch=develop)](https://travis-ci.org/ytake/Lom)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb/mini.png)](https://insight.sensiolabs.com/projects/1de254a2-9af5-45cc-aed5-05f6a6cf32cb)
+
+[![Build Status](http://img.shields.io/travis/ytake/Lom/master.svg?style=flat-square)](https://travis-ci.org/ytake/Lom)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/ytake/Lom.svg?style=flat-square)](https://scrutinizer-ci.com/g/ytake/Lom/)
+[![StyleCI](https://styleci.io/repos/38492512/shield?branch=master)](https://styleci.io/repos/38492512)
+[![Coverage Status](http://img.shields.io/coveralls/ytake/Lom/master.svg?style=flat-square)](https://coveralls.io/github/ytake/Lom)
 
 # install
 ```bash

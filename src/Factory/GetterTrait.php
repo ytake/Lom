@@ -10,6 +10,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
@@ -18,6 +23,7 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use Ytake\Lom\Exception\TraitMethodCallException;
 
 /**
  * Class GetterTrait.
@@ -28,23 +34,23 @@ use PhpParser\Node\Stmt\Return_;
 trait GetterTrait
 {
     /** @var string[] */
-    protected $getters = array();
+    protected $getters = [];
 
     /**
      * @param string $name
      */
     protected function createGetter(string $name)
     {
-        $this->getters[] = array(
-            'method' => 'get'.ucfirst($name),
+        $this->getters[] = [
+            'method'   => 'get' . ucfirst($name),
             'property' => $name,
-        );
+        ];
     }
 
     /**
      * @return \string[]
      */
-    protected function getGetters(): ?array
+    protected function getGetters(): array
     {
         return $this->getters;
     }
@@ -56,7 +62,13 @@ trait GetterTrait
      */
     protected function createGetterMethod(array $getter): ClassMethod
     {
-        return $this->builder->method($getter['method'])
+        if (!$this instanceof AbstractDriver) {
+            throw new TraitMethodCallException("should extend " . AbstractDriver::class);
+        }
+        /** @var \PhpParser\BuilderFactory $builder */
+        $builder = $this->builder;
+
+        return $builder->method($getter['method'])
             ->setDocComment('')
             ->addStmt(
                 new Return_(

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,6 +9,11 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom;
@@ -47,6 +51,9 @@ class Lom
     /** @var CodeParser */
     protected $parser;
 
+    /** @var Throwable|ThrowInconsistency  */
+    protected $throw;
+
     /**
      * @param CodeParser     $parser
      * @param Throwable|null $throw
@@ -62,9 +69,9 @@ class Lom
      *
      * @throws \ReflectionException
      *
-     * @return $this
+     * @return Lom
      */
-    final public function target(string $className): self
+    final public function target(string $className): Lom
     {
         $this->reflection = new ReflectionClass($className);
 
@@ -76,9 +83,9 @@ class Lom
      *
      * @throws \Doctrine\Common\Annotations\AnnotationException
      *
-     * @return $this
+     * @return Lom
      */
-    final public function register(AnnotationRegister $register): self
+    final public function register(AnnotationRegister $register): Lom
     {
         $this->register = $register->register()->getReader();
 
@@ -88,7 +95,7 @@ class Lom
     /**
      * @return array
      */
-    public function parseCode(): ?array
+    public function parseCode(): array
     {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
@@ -142,7 +149,7 @@ class Lom
      */
     protected function callFactory(array $parsed, $annotation): ?array
     {
-        /** @var \Ytake\Lom\Factory\FactoryInterface $factory */
+        /** @var \Ytake\Lom\Factory\AbstractDriver $factory */
         $factory = (new GeneratorFactory($this->reflection, $parsed))
             ->driver($annotation);
         if (!is_null($this->property)) {

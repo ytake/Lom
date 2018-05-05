@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -10,11 +9,17 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
 
 use PhpParser\Node\Stmt\ClassMethod;
+use Ytake\Lom\Exception\TraitMethodCallException;
 
 /**
  * Class ToStringTrait.
@@ -30,15 +35,22 @@ trait ToStringTrait
      */
     protected function createToString(array $getters): ClassMethod
     {
-        $class = $this->reflector->getName();
-        $classMethods = array();
+        if (!$this instanceof AbstractDriver) {
+            throw new TraitMethodCallException("should extend " . AbstractDriver::class);
+        }
+        /** @var \ReflectionClass $reflector */
+        $reflector = $this->reflector;
+        $class = $reflector->getName();
+        $classMethods = [];
         foreach ($getters as $getter) {
             $classMethods[] = "\$this->{$getter['method']}()";
         }
         $stringBuilder = implode(" . ', ' . ", $classMethods);
         $build = "return '{$class}(' . $stringBuilder . ')';";
+        /** @var \PhpParser\BuilderFactory $builder */
+        $builder = $this->builder;
 
-        return $this->builder->method('__toString')
+        return $builder->method('__toString')
             ->setDocComment('')
             ->addStmt(
                 new \PhpParser\Node\Stmt\Class_($build)
