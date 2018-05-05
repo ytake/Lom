@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b1ec759cc8aad74cd2f36bf1a476b47",
+    "content-hash": "5fd92353c91d651320aaac39fdc87753",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -3439,6 +3439,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.1"
+    },
     "platform-dev": []
 }
