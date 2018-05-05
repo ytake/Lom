@@ -1,6 +1,6 @@
 <?php
 
-class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
+class AllArgsConstructorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\Lom */
     protected $lom;
@@ -10,7 +10,7 @@ class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
     {
         $this->lom = new \Ytake\Lom\Lom(
             new \Ytake\Lom\CodeParser(
-                new \PhpParser\Parser(new \PhpParser\Lexer)
+                new \PhpParser\Parser\Php7(new \PhpParser\Lexer)
             )
         );
         $this->printer = new \Ytake\Lom\Printer(
@@ -25,11 +25,10 @@ class AllArgsConstructorTest extends \PHPUnit_Framework_TestCase
             ->parseCode();
         $code = $this->printer->setStatement($code)
             ->display();
-        $constructor = "public function __construct(\$message)
-    {
-        \$this->message = \$message;
-    }";
+        $constructor = 'public function __construct($message)';
+        $body = '$this->message = $message;';
         $this->assertContains($constructor, $code);
+        $this->assertContains($body, $code);
     }
 
     public function testExistsConstructorGenerateCode()

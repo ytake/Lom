@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,10 +14,14 @@
 
 namespace Ytake\Lom\Exception;
 
+use Ytake\Lom\Meta\AllArgsConstructor;
+use Ytake\Lom\Meta\Data;
+use Ytake\Lom\Meta\NoArgsConstructor;
+use Ytake\Lom\Meta\Value;
+
 /**
- * Class ThrowInconsistency
+ * Class ThrowInconsistency.
  *
- * @package Ytake\Lom\Exception
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
 class ThrowInconsistency implements Throwable
@@ -26,15 +33,15 @@ class ThrowInconsistency implements Throwable
      */
     public function detectAnnotationErrorThrow(array $annotations)
     {
-        if (array_key_exists(\Ytake\Lom\Meta\NoArgsConstructor::class, $annotations)
-            && array_key_exists(\Ytake\Lom\Meta\AllArgsConstructor::class, $annotations)
+        if (array_key_exists(NoArgsConstructor::class, $annotations)
+            && array_key_exists(AllArgsConstructor::class, $annotations)
         ) {
-            throw new InconsistencyException;
+            throw new InconsistencyException();
         }
-        if (array_key_exists(\Ytake\Lom\Meta\Data::class, $annotations)
-            && array_key_exists(\Ytake\Lom\Meta\Value::class, $annotations)
+        if (array_key_exists(Data::class, $annotations)
+            && array_key_exists(Value::class, $annotations)
         ) {
-            throw new InconsistencyException;
+            throw new InconsistencyException();
         }
     }
 }

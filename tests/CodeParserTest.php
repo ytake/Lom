@@ -1,6 +1,6 @@
 <?php
 
-class CodeParserTest extends \PHPUnit_Framework_TestCase
+class CodeParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\CodeParser */
     protected $parser;
@@ -8,7 +8,7 @@ class CodeParserTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->parser = new \Ytake\Lom\CodeParser(
-            new \PhpParser\Parser(
+            new \PhpParser\Parser\Php7(
                 new \PhpParser\Lexer()
             )
         );

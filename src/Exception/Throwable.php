@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -12,16 +15,12 @@
 namespace Ytake\Lom\Exception;
 
 /**
- * Interface Throwable
- *
- * @package Ytake\Lom\Exception
+ * Interface Throwable.
  */
 interface Throwable
 {
     /**
      * @param array $annotations
-     *
-     * @return void
      */
     public function detectAnnotationErrorThrow(array $annotations);
 }

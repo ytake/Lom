@@ -14,16 +14,16 @@
     "application"
   ],
   "require": {
-    "doctrine/annotations": "^1.2",
-    "nikic/php-parser": "1.*",
+    "php": "^7.1",
+    "doctrine/annotations": "1.*",
+    "nikic/php-parser": "4.*",
     "andrewsville/php-token-reflection": "1.*",
-    "symfony/console": "~2.3",
-    "symfony/finder": "~2.1"
+    "symfony/console": "^4.0",
+    "friendsofphp/php-cs-fixer": "^2.11"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.7",
-    "phpspec/phpspec": "^2.2",
-    "satooshi/php-coveralls": "dev-master",
+    "phpunit/phpunit": "^7.1",
+    "satooshi/php-coveralls": "2.0",
     "behat/behat": "3.*"
   },
   "autoload": {
@@ -33,15 +33,7 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/templates/DataAnnotation.php",
-      "tests/templates/DataGetterSetterAnnotation.php",
-      "tests/templates/InconsistencyConstructorAnnotation.php",
-      "tests/templates/AllArgsConstructorExistsAnnotation.php",
-      "tests/templates/GetterSetterAnnotation.php",
-      "tests/templates/ValueAnnotation.php",
-      "tests/templates/Testing.php",
-      "tests/templates/AllArgsConstructorAnnotation.php",
-      "tests/templates/InconsistencyConstructorAnnotation.php"
+      "tests/templates/"
     ]
   },
   "bin": [

@@ -1,6 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
-class DataGetterSetterTest extends \PHPUnit_Framework_TestCase
+class DataGetterSetterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\Lom */
     protected $lom;
@@ -9,7 +9,7 @@ class DataGetterSetterTest extends \PHPUnit_Framework_TestCase
     {
         $this->lom = new \Ytake\Lom\Lom(
             new \Ytake\Lom\CodeParser(
-                new \PhpParser\Parser(new \PhpParser\Lexer)
+                new \PhpParser\Parser\Php7(new \PhpParser\Lexer)
             )
         );
         $this->printer = new \Ytake\Lom\Printer(
@@ -27,5 +27,16 @@ class DataGetterSetterTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('private function getMessage', $code);
         $this->assertContains('protected function setMessage($message)', $code);
         $this->assertContains('__toString()', $code);
+
+        $code = $this->lom->register(new \Ytake\Lom\AnnotationRegister())
+            ->target('GetterSetterAnnotation2')
+            ->parseCode();
+        $code = $this->printer->setStatement($code)
+            ->display();
+        $this->assertContains('public function getMessage', $code);
+        $this->assertContains('public function setMessage($message)', $code);
+        $this->assertContains('__toString()', $code);
+
+
     }
 }

@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -12,14 +15,13 @@
 namespace Ytake\Lom;
 
 /**
- * Class Constants
+ * Class Constants.
  *
- * @package Ytake\Lom
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class Constants
 {
     // Format
-    const SETTER_FORMAT = "\$this->%s = \$%s;";
+    const SETTER_FORMAT = '$this->%s = $%s;';
 }

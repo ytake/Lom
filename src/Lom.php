@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,22 +14,22 @@
 
 namespace Ytake\Lom;
 
-use ReflectionClass;
-use Ytake\Lom\Exception\Throwable;
-use Ytake\Lom\Factory\GeneratorFactory;
 use Doctrine\Common\Annotations\Reader;
+use ReflectionClass;
+use ReflectionProperty;
+use Ytake\Lom\Exception\Throwable;
 use Ytake\Lom\Exception\ThrowInconsistency;
+use Ytake\Lom\Factory\GeneratorFactory;
 
 /**
- * Class Lom
+ * Class Lom.
  *
- * @package Ytake\Lom
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 class Lom
 {
-    /** @var  ReflectionClass */
+    /** @var ReflectionClass */
     protected $reflection;
 
     /** @var Reader */
@@ -51,15 +54,17 @@ class Lom
     public function __construct(CodeParser $parser, Throwable $throw = null)
     {
         $this->parser = $parser;
-        $this->throw = (is_null($throw)) ? new ThrowInconsistency : $throw;
+        $this->throw = (is_null($throw)) ? new ThrowInconsistency() : $throw;
     }
 
     /**
-     * @param $className
+     * @param string $className
+     *
+     * @throws \ReflectionException
      *
      * @return $this
      */
-    public function target($className)
+    final public function target(string $className): self
     {
         $this->reflection = new ReflectionClass($className);
 
@@ -69,9 +74,11 @@ class Lom
     /**
      * @param AnnotationRegister $register
      *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     *
      * @return $this
      */
-    public function register(AnnotationRegister $register)
+    final public function register(AnnotationRegister $register): self
     {
         $this->register = $register->register()->getReader();
 
@@ -79,11 +86,9 @@ class Lom
     }
 
     /**
-     * @param bool|false $printer
-     *
      * @return array
      */
-    public function parseCode()
+    public function parseCode(): ?array
     {
         $parsed = $this->parser->parser($this->reflection);
         $this->parseClassAnnotations($parsed);
@@ -92,13 +97,20 @@ class Lom
         if (!is_null($this->parsed)) {
             $parsed = $this->parsed;
         }
+
         return $parsed;
     }
 
     /**
+     * @return array
+     */
+    public function getParsed(): ?array
+    {
+        return $this->parsed;
+    }
+
+    /**
      * @param array $parsed
-     *
-     * @return mixed
      */
     protected function parseClassAnnotations(array $parsed)
     {
@@ -126,9 +138,9 @@ class Lom
      * @param array $parsed
      * @param       $annotation
      *
-     * @return mixed
+     * @return array|null
      */
-    protected function callFactory(array $parsed, $annotation)
+    protected function callFactory(array $parsed, $annotation): ?array
     {
         /** @var \Ytake\Lom\Factory\FactoryInterface $factory */
         $factory = (new GeneratorFactory($this->reflection, $parsed))
@@ -141,18 +153,10 @@ class Lom
     }
 
     /**
-     * @param $property
+     * @param ReflectionProperty $property
      */
-    protected function setProperty($property)
+    protected function setProperty(ReflectionProperty $property)
     {
         $this->property = $property;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParsed()
-    {
-        return $this->parsed;
     }
 }

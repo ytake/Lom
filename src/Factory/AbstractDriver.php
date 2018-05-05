@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,18 +14,17 @@
 
 namespace Ytake\Lom\Factory;
 
-use Ytake\Lom\Access;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
 use PhpParser\BuilderFactory;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
+use Ytake\Lom\Access;
 
 /**
- * Class AbstractDriver
+ * Class AbstractDriver.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -57,7 +59,7 @@ abstract class AbstractDriver
     }
 
     /**
-     * set ReflectionClass
+     * set ReflectionClass.
      *
      * @param ReflectionClass $reflection
      *
@@ -83,35 +85,6 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param $part
-     *
-     * @return void
-     */
-    protected function removeConstructor($part)
-    {
-        if (!is_null($this->reflector->getConstructor())) {
-            $this->removeMethod($part, '__construct');
-        }
-    }
-
-    /**
-     * @param Class_ $part
-     * @param        $name
-     *
-     * @return void
-     */
-    protected function removeMethod(Class_ $part, $name)
-    {
-        foreach ($part->stmts as $key => $statement) {
-            if ($statement instanceof ClassMethod) {
-                if ($statement->name === $name) {
-                    unset($part->stmts[$key]);
-                }
-            }
-        }
-    }
-
-    /**
      * @param ReflectionProperty $name
      *
      * @return $this
@@ -124,11 +97,36 @@ abstract class AbstractDriver
     }
 
     /**
-     * detect constructor access level
+     * @param $part
+     */
+    protected function removeConstructor($part)
+    {
+        if (!is_null($this->reflector->getConstructor())) {
+            $this->removeMethod($part, '__construct');
+        }
+    }
+
+    /**
+     * @param Class_ $part
+     * @param string $name
+     */
+    protected function removeMethod(Class_ $part, string $name)
+    {
+        foreach ($part->stmts as $key => $statement) {
+            if ($statement instanceof ClassMethod) {
+                if ($statement->name === $name) {
+                    unset($part->stmts[$key]);
+                }
+            }
+        }
+    }
+
+    /**
+     * detect constructor access level.
      *
      * @return string
      */
-    protected function setAccessLevel()
+    protected function setAccessLevel(): string
     {
         switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:

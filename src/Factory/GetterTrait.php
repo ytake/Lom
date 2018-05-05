@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -11,40 +14,37 @@
 
 namespace Ytake\Lom\Factory;
 
-use PhpParser\Node\Stmt\Return_;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Return_;
 
 /**
- * Class GetterTrait
+ * Class GetterTrait.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 trait GetterTrait
 {
-
     /** @var string[] */
-    protected $getters = [];
+    protected $getters = array();
 
     /**
-     * @param $name
-     *
-     * @return void
+     * @param string $name
      */
-    protected function createGetter($name)
+    protected function createGetter(string $name)
     {
-        $this->getters[] = [
-            'method' => "get" . ucfirst($name),
-            'property' => $name
-        ];
+        $this->getters[] = array(
+            'method' => 'get'.ucfirst($name),
+            'property' => $name,
+        );
     }
 
     /**
      * @return \string[]
      */
-    protected function getGetters()
+    protected function getGetters(): ?array
     {
         return $this->getters;
     }
@@ -52,12 +52,12 @@ trait GetterTrait
     /**
      * @param array $getter
      *
-     * @return \PhpParser\Node\Stmt\ClassMethod
+     * @return ClassMethod
      */
-    protected function createGetterMethod(array $getter)
+    protected function createGetterMethod(array $getter): ClassMethod
     {
         return $this->builder->method($getter['method'])
-            ->setDocComment("")
+            ->setDocComment('')
             ->addStmt(
                 new Return_(
                     new PropertyFetch(

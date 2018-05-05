@@ -18,14 +18,4 @@ class ValueAnnotation
 
     /** @var string $hello */
     protected $hello;
-
-    protected function getHello()
-    {
-        return $this->hello;
-    }
-
-    public function getTesting()
-    {
-        return $this->testing;
-    }
 }
