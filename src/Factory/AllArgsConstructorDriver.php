@@ -1,5 +1,8 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -7,28 +10,31 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
 
-use Ytake\Lom\Constants;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use Ytake\Lom\Constants;
 
 /**
- * Class AllArgsConstructorDriver
+ * Class AllArgsConstructorDriver.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterface
+class AllArgsConstructorDriver extends AbstractDriver
 {
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function generator()
+    public function generator(): array
     {
         foreach ($this->parsed as $part) {
             // auto generate for constructor
@@ -38,7 +44,7 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
                 $part->stmts[] = $this->createConstructor();
                 foreach ($part->stmts as $key => $statement) {
                     if ($statement instanceof ClassMethod) {
-                        if ($statement->name !== '__construct') {
+                        if ('__construct' !== $statement->name) {
                             unset($part->stmts[$key]);
                             $part->stmts[] = $statement;
                         }
@@ -53,13 +59,13 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
     /**
      * @return ClassMethod
      */
-    protected function createConstructor()
+    protected function createConstructor(): ClassMethod
     {
         $properties = [];
         $sets = [];
         foreach ($this->reflector->getProperties() as $property) {
             $properties[] = $this->builder->param($property->getName());
-            $sets[] = new Name(
+            $sets[] = new Class_(
                 sprintf(Constants::SETTER_FORMAT, $property->getName(), $property->getName())
             );
         }
@@ -73,5 +79,4 @@ class AllArgsConstructorDriver extends AbstractDriver implements FactoryInterfac
             ->addStmts($sets)
             ->getNode();
     }
-
 }

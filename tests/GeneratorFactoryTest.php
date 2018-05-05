@@ -1,6 +1,6 @@
 <?php
 
-class GeneratorFactoryTest extends \PHPUnit_Framework_TestCase
+class GeneratorFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\Factory\GeneratorFactory */
     protected $factory;

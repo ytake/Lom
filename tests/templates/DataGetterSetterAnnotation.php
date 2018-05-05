@@ -5,8 +5,6 @@ use Ytake\Lom\Meta\Data;
 use Ytake\Lom\Meta\Getter;
 use Ytake\Lom\Meta\Setter;
 /**
- * Class DataGetterSetterAnnotation
- *
  * @Data
  */
 class DataGetterSetterAnnotation
@@ -23,15 +21,5 @@ class DataGetterSetterAnnotation
     public function __toString()
     {
         return '';
-    }
-    
-    private function getMessage($message)
-    {
-        $this->message = $message;
-    }
-    
-    protected function setMessage($message)
-    {
-        $this->message = $message;
     }
 }

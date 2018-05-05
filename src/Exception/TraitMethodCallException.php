@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -17,21 +16,14 @@ declare(strict_types=1);
  * Copyright (c) 2018 Yuuki Takezawa
  */
 
-namespace Ytake\Lom\Factory;
+namespace Ytake\Lom\Exception;
 
 /**
- * Class GetterDriver.
+ * Class TraitMethodCallException
  *
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-class GetterDriver extends PropertyReference
+final class TraitMethodCallException extends \LogicException
 {
-    /**
-     * @return string
-     */
-    protected function resolveMethodName(): string
-    {
-        return 'get'.ucfirst($this->property->getName());
-    }
 }

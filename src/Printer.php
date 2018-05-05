@@ -1,5 +1,7 @@
 <?php
-/**
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -7,6 +9,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom;
@@ -14,14 +21,13 @@ namespace Ytake\Lom;
 use PhpParser\PrettyPrinterAbstract;
 
 /**
- * Class Printer
+ * Class Printer.
  *
- * @package Ytake\Lom
  * @author yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  */
 class Printer
 {
-    /** @var array  */
+    /** @var array */
     protected $parsed;
 
     /** @var PrettyPrinterAbstract */
@@ -38,25 +44,27 @@ class Printer
     /**
      * @param array $parsed
      *
-     * @return $this
+     * @return Printer
      */
-    public function setStatement(array $parsed)
+    public function setStatement(array $parsed): Printer
     {
         $this->parsed = $parsed;
+
         return $this;
     }
 
-    public function display()
+    /**
+     * @return null|string
+     */
+    public function display(): ?string
     {
         return $this->printer->prettyPrint($this->parsed);
     }
 
     /**
-     * @param $fileName
-     *
-     * @return void
+     * @param string $fileName
      */
-    public function putFile($fileName)
+    public function putFile(string $fileName): void
     {
         file_put_contents($fileName, $this->printer->prettyPrintFile($this->parsed));
     }

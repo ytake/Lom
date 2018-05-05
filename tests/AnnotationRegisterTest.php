@@ -1,6 +1,6 @@
 <?php
 
-class AnnotationRegisterTest extends \PHPUnit_Framework_TestCase
+class AnnotationRegisterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\AnnotationRegister */
     protected $register;

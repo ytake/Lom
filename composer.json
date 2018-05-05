@@ -14,37 +14,39 @@
     "application"
   ],
   "require": {
+    "php": "^7.1",
     "doctrine/annotations": "^1.2",
-    "nikic/php-parser": "1.*",
+    "nikic/php-parser": "4.*",
     "andrewsville/php-token-reflection": "1.*",
-    "symfony/console": "~2.3",
-    "symfony/finder": "~2.1"
+    "symfony/console": "^4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.7",
-    "phpspec/phpspec": "^2.2",
-    "satooshi/php-coveralls": "dev-master",
-    "behat/behat": "3.*"
+    "phpunit/phpunit": "^7.1",
+    "satooshi/php-coveralls": "2.0",
+    "sebastian/phpcpd": "*",
+    "phploc/phploc": "*",
+    "sensiolabs/security-checker": "^4.1.8",
+    "friendsofphp/php-cs-fixer": "^2.11"
   },
   "autoload": {
     "psr-4": {
-      "Ytake\\Lom\\": "src"
+      "Ytake\\Lom\\": "src/"
     }
   },
   "autoload-dev": {
     "classmap": [
-      "tests/templates/DataAnnotation.php",
-      "tests/templates/DataGetterSetterAnnotation.php",
-      "tests/templates/InconsistencyConstructorAnnotation.php",
-      "tests/templates/AllArgsConstructorExistsAnnotation.php",
-      "tests/templates/GetterSetterAnnotation.php",
-      "tests/templates/ValueAnnotation.php",
-      "tests/templates/Testing.php",
-      "tests/templates/AllArgsConstructorAnnotation.php",
-      "tests/templates/InconsistencyConstructorAnnotation.php"
+      "tests/templates/"
     ]
   },
   "bin": [
     "bin/lom"
-  ]
+  ],
+  "scripts": {
+    "ci": [
+      "./vendor/bin/phpunit",
+      "./vendor/bin/phpcpd src/",
+      "./vendor/bin/phploc src/ --log-xml=tests/build/phploc.xml"
+    ],
+    "security-checker": "./vendor/bin/security-checker security:check composer.lock"
+  }
 }

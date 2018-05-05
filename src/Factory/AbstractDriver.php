@@ -1,5 +1,7 @@
 <?php
-/**
+declare(strict_types=1);
+
+/*
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -7,32 +9,36 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2018 Yuuki Takezawa
  */
 
 namespace Ytake\Lom\Factory;
 
-use Ytake\Lom\Access;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
 use PhpParser\BuilderFactory;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
+use Ytake\Lom\Access;
 
 /**
- * Class AbstractDriver
+ * Class AbstractDriver.
  *
- * @package Ytake\Lom\Factory
  * @author  yuuki.takezawa<yuuki.takezawa@comnect.jp.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
-abstract class AbstractDriver
+abstract class AbstractDriver implements FactoryInterface
 {
     /** @var ReflectionClass */
     protected $reflector;
 
     /** @var array */
-    protected $parsed;
+    protected $parsed = [];
 
     /** @var BuilderFactory */
     protected $builder;
@@ -57,13 +63,13 @@ abstract class AbstractDriver
     }
 
     /**
-     * set ReflectionClass
+     * set ReflectionClass.
      *
      * @param ReflectionClass $reflection
      *
      * @return $this
      */
-    public function setReflector(ReflectionClass $reflection)
+    public function setReflector(ReflectionClass $reflection): AbstractDriver
     {
         $this->reflector = $reflection;
 
@@ -75,7 +81,7 @@ abstract class AbstractDriver
      *
      * @return $this
      */
-    public function setAnnotationInstance($annotation)
+    public function setAnnotationInstance($annotation): AbstractDriver
     {
         $this->annotation = $annotation;
 
@@ -83,11 +89,21 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param $part
+     * @param ReflectionProperty $name
      *
-     * @return void
+     * @return $this
      */
-    protected function removeConstructor($part)
+    public function setProperty(ReflectionProperty $name): AbstractDriver
+    {
+        $this->property = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param Class_ $part
+     */
+    protected function removeConstructor(Class_ $part)
     {
         if (!is_null($this->reflector->getConstructor())) {
             $this->removeMethod($part, '__construct');
@@ -96,11 +112,9 @@ abstract class AbstractDriver
 
     /**
      * @param Class_ $part
-     * @param        $name
-     *
-     * @return void
+     * @param string $name
      */
-    protected function removeMethod(Class_ $part, $name)
+    protected function removeMethod(Class_ $part, string $name)
     {
         foreach ($part->stmts as $key => $statement) {
             if ($statement instanceof ClassMethod) {
@@ -112,23 +126,11 @@ abstract class AbstractDriver
     }
 
     /**
-     * @param ReflectionProperty $name
-     *
-     * @return $this
-     */
-    public function setProperty(ReflectionProperty $name)
-    {
-        $this->property = $name;
-
-        return $this;
-    }
-
-    /**
-     * detect constructor access level
+     * detect constructor access level.
      *
      * @return string
      */
-    protected function setAccessLevel()
+    protected function setAccessLevel(): string
     {
         switch ($this->annotation->access) {
             case Access::LEVEL_PRIVATE:

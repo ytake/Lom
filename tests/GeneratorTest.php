@@ -6,7 +6,7 @@ use Ytake\Lom\AnnotationRegister;
 /**
  * Class GeneratorTest
  */
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AnnotationRegister */
     protected $register;
@@ -19,7 +19,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->lom = new \Ytake\Lom\Lom(
             new \Ytake\Lom\CodeParser(
-                new \PhpParser\Parser(new \PhpParser\Lexer)
+                new \PhpParser\Parser\Php7(new \PhpParser\Lexer)
             )
         );
         $this->printer = new \Ytake\Lom\Printer(

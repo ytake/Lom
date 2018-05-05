@@ -1,6 +1,6 @@
 <?php
 
-class ValueTest extends \PHPUnit_Framework_TestCase
+class ValueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Ytake\Lom\Lom */
     protected $lom;
@@ -9,7 +9,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     {
         $this->lom = new \Ytake\Lom\Lom(
             new \Ytake\Lom\CodeParser(
-                new \PhpParser\Parser(new PhpParser\Lexer(array(
+                new \PhpParser\Parser\Php7(new PhpParser\Lexer(array(
                     'usedAttributes' => array(
                         'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos'
                     )
